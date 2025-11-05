@@ -1,13 +1,16 @@
 package stoneyspring.SegundUM.dominio;
 
 import javax.persistence.*;
+
+import stoneyspring.SegundUM.repositorio.Identificable;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "usuarios")
-public class Usuario {
+public class Usuario implements Identificable {
     
     @Id
     private String id;
@@ -50,9 +53,15 @@ public class Usuario {
         this.administrador = false;
     }
     
-    // Getters y setters
+    // Getters y setters (implementa Identificable)
+    @Override
     public String getId() {
         return id;
+    }
+    
+    @Override
+    public void setId(String id) {
+        this.id = id;
     }
     
     public String getEmail() {

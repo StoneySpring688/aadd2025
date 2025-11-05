@@ -1,0 +1,72 @@
+package stoneyspring.SegundUM.repositorio.AdHoc;
+
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+
+import stoneyspring.SegundUM.dominio.Categoria;
+import stoneyspring.SegundUM.repositorio.EntidadNoEncontrada;
+import stoneyspring.SegundUM.repositorio.RepositorioException;
+import stoneyspring.SegundUM.repositorio.RepositorioJPA;
+import stoneyspring.SegundUM.utils.EntityManagerHelper;
+
+/**
+ * Implementación JPA del repositorio de categorías.
+ */
+public class RepositorioCategoriasJPA extends RepositorioJPA<Categoria> implements RepositorioCategorias {
+    
+    @Override
+    public Class<Categoria> getClase() {
+        return Categoria.class;
+    }
+    
+    @Override
+    public List<Categoria> getCategoriasRaiz() throws RepositorioException {
+        EntityManager em = EntityManagerHelper.getEntityManager();
+        try {
+            TypedQuery<Categoria> query = em.createQuery(
+                "SELECT c FROM Categoria c WHERE c.categoriaPadre IS NULL", 
+                Categoria.class
+            );
+            return query.getResultList();
+        } catch (Exception e) {
+            throw new RepositorioException("Error al recuperar las categorías raíz", e);
+        } finally {
+            EntityManagerHelper.closeEntityManager();
+        }
+    }
+    
+    @Override
+    public List<Categoria> getDescendientes(String categoriaId) throws RepositorioException, EntidadNoEncontrada {
+        EntityManager em = EntityManagerHelper.getEntityManager();
+        try {
+            Categoria categoria = em.find(Categoria.class, categoriaId);
+            if (categoria == null) {
+                throw new EntidadNoEncontrada("Categoría con id " + categoriaId + " no encontrada");
+            }
+            
+            // Obtener descendientes recursivamente usando el método del dominio
+            return categoria.obtenerDescendientes();
+        } catch (EntidadNoEncontrada e) {
+            throw e;
+        } catch (Exception e) {
+            throw new RepositorioException("Error al recuperar los descendientes de la categoría " + categoriaId, e);
+        } finally {
+            EntityManagerHelper.closeEntityManager();
+        }
+    }
+    
+    @Override
+    public boolean existe(String id) throws RepositorioException {
+        EntityManager em = EntityManagerHelper.getEntityManager();
+        try {
+            Categoria categoria = em.find(Categoria.class, id);
+            return categoria != null;
+        } catch (Exception e) {
+            throw new RepositorioException("Error al verificar existencia de categoría " + id, e);
+        } finally {
+            EntityManagerHelper.closeEntityManager();
+        }
+    }
+}

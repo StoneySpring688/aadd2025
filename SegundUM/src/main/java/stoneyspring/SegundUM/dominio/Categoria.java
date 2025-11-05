@@ -2,6 +2,9 @@ package stoneyspring.SegundUM.dominio;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.*;
+
+import stoneyspring.SegundUM.repositorio.Identificable;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +12,7 @@ import java.util.List;
 @Table(name = "categorias")
 @XmlRootElement(name = "categoria")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Categoria {
+public class Categoria implements Identificable {
     
     @Id
     @XmlAttribute
@@ -70,11 +73,13 @@ public class Categoria {
         return categoriaPadre == null;
     }
     
-    // Getters y setters
+    // Getters y setters (Implementa Identificable)
+    @Override
     public String getId() {
         return id;
     }
     
+    @Override
     public void setId(String id) {
         this.id = id;
     }

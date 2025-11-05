@@ -1,12 +1,15 @@
 package stoneyspring.SegundUM.dominio;
 
 import javax.persistence.*;
+
+import stoneyspring.SegundUM.repositorio.Identificable;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "productos")
-public class Producto {
+public class Producto implements Identificable {
     
     @Id
     private String id;
@@ -67,9 +70,15 @@ public class Producto {
         this.visualizaciones++;
     }
     
-    // Getters y setters
+    // Getters y setters (implementa Identificable)
+    @Override
     public String getId() {
         return id;
+    }
+    
+    @Override
+    public void setId(String id) {
+        this.id = id;
     }
     
     public String getTitulo() {
@@ -108,6 +117,10 @@ public class Producto {
         return fechaPublicacion;
     }
     
+    public void setFechaPublicacion(LocalDateTime fechaPublicacion) {
+        this.fechaPublicacion = fechaPublicacion;
+    }
+    
     public Categoria getCategoria() {
         return categoria;
     }
@@ -118,6 +131,10 @@ public class Producto {
     
     public Integer getVisualizaciones() {
         return visualizaciones;
+    }
+    
+    public void setVisualizaciones(Integer visualizaciones) {
+        this.visualizaciones = visualizaciones;
     }
     
     public boolean isEnvioDisponible() {
@@ -138,5 +155,9 @@ public class Producto {
     
     public Usuario getVendedor() {
         return vendedor;
+    }
+    
+    public void setVendedor(Usuario vendedor) {
+        this.vendedor = vendedor;
     }
 }
