@@ -1,4 +1,4 @@
-package stoneyspring.SegundUM.servicio.categorias;
+package stoneyspring.SegundUM.repositorio.categorias;
 
 import stoneyspring.SegundUM.dominio.Categoria;
 import stoneyspring.SegundUM.repositorio.RepositorioXML;
