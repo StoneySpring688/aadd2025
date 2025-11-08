@@ -2,6 +2,7 @@ package stoneyspring.SegundUM.controller;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -17,10 +18,22 @@ import stoneyspring.SegundUM.servicio.categorias.ServicioCategorias;
 import stoneyspring.SegundUM.servicio.productos.ServicioProductos;
 import stoneyspring.SegundUM.servicio.usuarios.ServicioUsuarios;
 
+/**
+ * Controlador principal de la aplicación.
+ * <p>
+ * Este controlador captura todas las excepciones de los servicios y las gestiona
+ * sin interrumpir la ejecución del programa. Los errores se registran mediante
+ * el logger y se retornan valores por defecto apropiados.
+ * </p>
+ * 
+ * @see ServicioUsuarios
+ * @see ServicioProductos
+ * @see ServicioCategorias
+ */
 public class Controller {
 
-	Logger logger = LoggerFactory.getILoggerFactory().getLogger(Controller.class.getName());
-	
+    private static final Logger logger = LoggerFactory.getLogger(Controller.class);
+    
     private ServicioUsuarios servicioUsuarios;
     private ServicioProductos servicioProductos;
     private ServicioCategorias servicioCategorias;
@@ -42,31 +55,38 @@ public class Controller {
      * @param clave Contraseña del usuario
      * @param fechaNacimiento Fecha de nacimiento
      * @param telefono Teléfono (opcional)
-     * @return ID del usuario creado
-     * @throws ServicioException Si hay algún error en el registro
+     * @return ID del usuario creado, o null si hay algún error
      */
     public String registrarUsuario(String email, String nombre, String apellidos, 
                                    String clave, LocalDate fechaNacimiento, 
-                                   String telefono) throws ServicioException {
-        
-        if (email == null || email.trim().isEmpty()) {
-            throw new ServicioException("El email es obligatorio");
-        }
-        if (nombre == null || nombre.trim().isEmpty()) {
-            throw new ServicioException("El nombre es obligatorio");
-        }
-        if (apellidos == null || apellidos.trim().isEmpty()) {
-            throw new ServicioException("Los apellidos son obligatorios");
-        }
-        if (clave == null || clave.trim().isEmpty()) {
-            throw new ServicioException("La clave es obligatoria");
-        }
-        if (fechaNacimiento == null) {
-            throw new ServicioException("La fecha de nacimiento es obligatoria");
-        }
+                                   String telefono) {
+        try {
+            if (email == null || email.trim().isEmpty()) {
+                logger.warn("Intento de registro con email vacío");
+                return null;
+            }
+            if (nombre == null || nombre.trim().isEmpty()) {
+                logger.warn("Intento de registro con nombre vacío");
+                return null;
+            }
+            if (apellidos == null || apellidos.trim().isEmpty()) {
+                logger.warn("Intento de registro con apellidos vacíos");
+                return null;
+            }
+            if (clave == null || clave.trim().isEmpty()) {
+                logger.warn("Intento de registro con clave vacía");
+                return null;
+            }
+            if (fechaNacimiento == null) {
+                logger.warn("Intento de registro con fecha de nacimiento nula");
+                return null;
+            }
 
-        return servicioUsuarios.altaUsuario(email, nombre, apellidos, clave, 
-                                           fechaNacimiento, telefono);
+            return servicioUsuarios.altaUsuario(email, nombre, apellidos, clave, fechaNacimiento, telefono);
+        } catch (ServicioException e) {
+            logger.error("Error al registrar el usuario con email: " + email, e);
+            return null;
+        }
     }
 
     /**
@@ -78,19 +98,25 @@ public class Controller {
      * @param clave Nueva contraseña (null si no se modifica)
      * @param fechaNacimiento Nueva fecha de nacimiento (null si no se modifica)
      * @param telefono Nuevo teléfono (null si no se modifica)
-     * @throws ServicioException Si hay algún error en la modificación
+     * @return true si la modificación fue exitosa, false en caso contrario
      */
-    public void modificarDatosPersonales(String usuarioId, String nombre, 
-                                        String apellidos, String clave, 
-                                        LocalDate fechaNacimiento, 
-                                        String telefono) throws ServicioException {
-        
-        if (usuarioId == null || usuarioId.trim().isEmpty()) {
-            throw new ServicioException("El ID de usuario es obligatorio");
-        }
+    public boolean modificarDatosPersonales(String usuarioId, String nombre, 
+                                           String apellidos, String clave, 
+                                           LocalDate fechaNacimiento, 
+                                           String telefono) {
+        try {
+            if (usuarioId == null || usuarioId.trim().isEmpty()) {
+                logger.warn("Intento de modificación de usuario con ID vacío");
+                return false;
+            }
 
-        servicioUsuarios.modificarUsuario(usuarioId, nombre, apellidos, 
-                                         clave, fechaNacimiento, telefono);
+            servicioUsuarios.modificarUsuario(usuarioId, nombre, apellidos, 
+                                             clave, fechaNacimiento, telefono);
+            return true;
+        } catch (ServicioException e) {
+            logger.error("Error al modificar datos del usuario con ID: " + usuarioId, e);
+            return false;
+        }
     }
 
     /**
@@ -103,32 +129,40 @@ public class Controller {
      * @param categoriaId ID de la categoría
      * @param envioDisponible Si está disponible el envío
      * @param vendedorId ID del usuario vendedor
-     * @return ID del producto creado
-     * @throws ServicioException Si hay algún error en el alta
+     * @return ID del producto creado, o null si hay algún error
      */
     public String darAltaProducto(String titulo, String descripcion, 
                                  BigDecimal precio, EstadoProducto estado, 
                                  String categoriaId, boolean envioDisponible, 
-                                 String vendedorId) throws ServicioException {
-        
-        if (titulo == null || titulo.trim().isEmpty()) {
-            throw new ServicioException("El título del producto es obligatorio");
-        }
-        if (precio == null || precio.compareTo(BigDecimal.ZERO) <= 0) {
-            throw new ServicioException("El precio debe ser mayor que cero");
-        }
-        if (estado == null) {
-            throw new ServicioException("El estado del producto es obligatorio");
-        }
-        if (categoriaId == null || categoriaId.trim().isEmpty()) {
-            throw new ServicioException("La categoría es obligatoria");
-        }
-        if (vendedorId == null || vendedorId.trim().isEmpty()) {
-            throw new ServicioException("El vendedor es obligatorio");
-        }
+                                 String vendedorId) {
+        try {
+            if (titulo == null || titulo.trim().isEmpty()) {
+                logger.warn("Intento de alta de producto con título vacío");
+                return null;
+            }
+            if (precio == null || precio.compareTo(BigDecimal.ZERO) <= 0) {
+                logger.warn("Intento de alta de producto con precio inválido: " + precio);
+                return null;
+            }
+            if (estado == null) {
+                logger.warn("Intento de alta de producto sin estado");
+                return null;
+            }
+            if (categoriaId == null || categoriaId.trim().isEmpty()) {
+                logger.warn("Intento de alta de producto sin categoría");
+                return null;
+            }
+            if (vendedorId == null || vendedorId.trim().isEmpty()) {
+                logger.warn("Intento de alta de producto sin vendedor");
+                return null;
+            }
 
-        return servicioProductos.altaProducto(titulo, descripcion, precio, estado, 
-                                             categoriaId, envioDisponible, vendedorId);
+            return servicioProductos.altaProducto(titulo, descripcion, precio, estado, 
+                                                 categoriaId, envioDisponible, vendedorId);
+        } catch (ServicioException e) {
+            logger.error("Error al dar de alta el producto: " + titulo, e);
+            return null;
+        }
     }
 
     /**
@@ -137,24 +171,32 @@ public class Controller {
      * @param productoId ID del producto a modificar
      * @param nuevoPrecio Nuevo precio (null si no se modifica)
      * @param nuevaDescripcion Nueva descripción (null si no se modifica)
-     * @throws ServicioException Si hay algún error en la modificación
+     * @return true si la modificación fue exitosa, false en caso contrario
      */
-    public void modificarProducto(String productoId, BigDecimal nuevoPrecio, 
-                                 String nuevaDescripcion) throws ServicioException {
-        
-        if (productoId == null || productoId.trim().isEmpty()) {
-            throw new ServicioException("El ID del producto es obligatorio");
-        }
-        
-        if (nuevoPrecio == null && nuevaDescripcion == null) {
-            throw new ServicioException("Debe especificar al menos un campo a modificar");
-        }
-        
-        if (nuevoPrecio != null && nuevoPrecio.compareTo(BigDecimal.ZERO) <= 0) {
-            throw new ServicioException("El precio debe ser mayor que cero");
-        }
+    public boolean modificarProducto(String productoId, BigDecimal nuevoPrecio, 
+                                    String nuevaDescripcion) {
+        try {
+            if (productoId == null || productoId.trim().isEmpty()) {
+                logger.warn("Intento de modificación de producto con ID vacío");
+                return false;
+            }
+            
+            if (nuevoPrecio == null && nuevaDescripcion == null) {
+                logger.warn("Intento de modificación de producto sin especificar cambios");
+                return false;
+            }
+            
+            if (nuevoPrecio != null && nuevoPrecio.compareTo(BigDecimal.ZERO) <= 0) {
+                logger.warn("Intento de modificación de producto con precio inválido: " + nuevoPrecio);
+                return false;
+            }
 
-        servicioProductos.modificarProducto(productoId, nuevoPrecio, nuevaDescripcion);
+            servicioProductos.modificarProducto(productoId, nuevoPrecio, nuevaDescripcion);
+            return true;
+        } catch (ServicioException e) {
+            logger.error("Error al modificar el producto con ID: " + productoId, e);
+            return false;
+        }
     }
 
     /**
@@ -164,29 +206,38 @@ public class Controller {
      * @param descripcion Descripción del lugar de recogida
      * @param longitud Longitud geográfica
      * @param latitud Latitud geográfica
-     * @throws ServicioException Si hay algún error al asociar el lugar
+     * @return true si la asociación fue exitosa, false en caso contrario
      */
-    public void asociarLugarRecogida(String productoId, String descripcion, 
-                                    Double longitud, Double latitud) throws ServicioException {
-        
-        if (productoId == null || productoId.trim().isEmpty()) {
-            throw new ServicioException("El ID del producto es obligatorio");
-        }
-        if (descripcion == null || descripcion.trim().isEmpty()) {
-            throw new ServicioException("La descripción del lugar es obligatoria");
-        }
-        if (longitud == null || latitud == null) {
-            throw new ServicioException("Las coordenadas (longitud y latitud) son obligatorias");
-        }
-        if (longitud < -180 || longitud > 180) {
-            throw new ServicioException("La longitud debe estar entre -180 y 180");
-        }
-        if (latitud < -90 || latitud > 90) {
-            throw new ServicioException("La latitud debe estar entre -90 y 90");
-        }
+    public boolean asociarLugarRecogida(String productoId, String descripcion, 
+                                       Double longitud, Double latitud) {
+        try {
+            if (productoId == null || productoId.trim().isEmpty()) {
+                logger.warn("Intento de asociar lugar de recogida con ID de producto vacío");
+                return false;
+            }
+            if (descripcion == null || descripcion.trim().isEmpty()) {
+                logger.warn("Intento de asociar lugar de recogida con descripción vacía");
+                return false;
+            }
+            if (longitud == null || latitud == null) {
+                logger.warn("Intento de asociar lugar de recogida sin coordenadas completas");
+                return false;
+            }
+            if (longitud < -180 || longitud > 180) {
+                logger.warn("Intento de asociar lugar de recogida con longitud inválida: " + longitud);
+                return false;
+            }
+            if (latitud < -90 || latitud > 90) {
+                logger.warn("Intento de asociar lugar de recogida con latitud inválida: " + latitud);
+                return false;
+            }
 
-        servicioProductos.asignarLugarRecogida(productoId, descripcion, 
-                                              longitud, latitud);
+            servicioProductos.asignarLugarRecogida(productoId, descripcion, longitud, latitud);
+            return true;
+        } catch (ServicioException e) {
+            logger.error("Error al asociar lugar de recogida al producto con ID: " + productoId, e);
+            return false;
+        }
     }
 
     /**
@@ -194,19 +245,26 @@ public class Controller {
      * 
      * @param mes Mes (1-12)
      * @param anio Año
-     * @return Lista de resúmenes de productos ordenados por visualizaciones (descendente)
-     * @throws ServicioException Si hay algún error al obtener el resumen
+     * @param emailVendedor Email del vendedor (opcional, puede ser null para obtener todos)
+     * @return Lista de resúmenes de productos ordenados por visualizaciones (descendente),
+     *         o lista vacía si hay algún error
      */
-    public List<ResumenProducto> obtenerResumenMensual(int mes, int anio) throws ServicioException {
-        
-        if (mes < 1 || mes > 12) {
-            throw new ServicioException("El mes debe estar entre 1 y 12");
-        }
-        if (anio < 1900 || anio > 2100) {
-            throw new ServicioException("El año no es válido");
-        }
+    public List<ResumenProducto> obtenerResumenMensual(int mes, int anio, String emailVendedor) {
+        try {
+            if (mes < 1 || mes > 12) {
+                logger.warn("Intento de obtener resumen mensual con mes inválido: " + mes);
+                return Collections.emptyList();
+            }
+            if (anio < 1900 || anio > 2100) {
+                logger.warn("Intento de obtener resumen mensual con año inválido: " + anio);
+                return Collections.emptyList();
+            }
 
-        return servicioProductos.historialMes(mes, anio);
+            return servicioProductos.historialMes(mes, anio, emailVendedor);
+        } catch (ServicioException e) {
+            logger.error("Error al obtener resumen mensual para " + mes + "/" + anio, e);
+            return Collections.emptyList();
+        }
     }
 
     /**
@@ -216,19 +274,23 @@ public class Controller {
      * @param textoBusqueda Texto a buscar en la descripción (opcional, puede ser null)
      * @param estadoMinimo Estado mínimo del producto (opcional, puede ser null)
      * @param precioMaximo Precio máximo (opcional, puede ser null)
-     * @return Lista de productos que cumplen los criterios
-     * @throws ServicioException Si hay algún error en la búsqueda
+     * @return Lista de productos que cumplen los criterios, o lista vacía si hay algún error
      */
     public List<Producto> buscarProductos(String categoriaId, String textoBusqueda, 
                                          EstadoProducto estadoMinimo, 
-                                         BigDecimal precioMaximo) throws ServicioException {
-        
-        if (precioMaximo != null && precioMaximo.compareTo(BigDecimal.ZERO) < 0) {
-            throw new ServicioException("El precio máximo no puede ser negativo");
-        }
+                                         BigDecimal precioMaximo) {
+        try {
+            if (precioMaximo != null && precioMaximo.compareTo(BigDecimal.ZERO) < 0) {
+                logger.warn("Intento de búsqueda con precio máximo negativo: " + precioMaximo);
+                return Collections.emptyList();
+            }
 
-        return servicioProductos.buscarProductos(categoriaId, textoBusqueda, 
-                                                estadoMinimo, precioMaximo);
+            return servicioProductos.buscarProductos(categoriaId, textoBusqueda, 
+                                                    estadoMinimo, precioMaximo);
+        } catch (ServicioException e) {
+            logger.error("Error al buscar productos", e);
+            return Collections.emptyList();
+        }
     }
 
     // ========== CASOS DE USO DE ADMINISTRADOR ==========
@@ -237,16 +299,21 @@ public class Controller {
      * CU8: Cargar nuevas categorías desde archivo XML (administrador)
      * 
      * @param rutaArchivoXML Ruta del archivo XML con la jerarquía de categorías
-     * @throws ServicioException Si hay algún error al cargar las categorías
+     * @return true si la carga fue exitosa, false en caso contrario
      */
-    public void cargarCategorias(String rutaArchivoXML) throws ServicioException {
-        
-        if (rutaArchivoXML == null || rutaArchivoXML.trim().isEmpty()) {
-        	logger.error("La ruta del archivo XML es nula o vacía");
-            throw new ServicioException("La ruta del archivo XML es obligatoria");
-        }
+    public boolean cargarCategorias(String rutaArchivoXML) {
+        try {
+            if (rutaArchivoXML == null || rutaArchivoXML.trim().isEmpty()) {
+                logger.error("La ruta del archivo XML es nula o vacía");
+                return false;
+            }
 
-        servicioCategorias.cargarJerarquia(rutaArchivoXML);
+            servicioCategorias.cargarJerarquia(rutaArchivoXML);
+            return true;
+        } catch (ServicioException e) {
+            logger.error("Error al cargar categorías desde XML: " + rutaArchivoXML, e);
+            return false;
+        }
     }
 
     /**
@@ -254,19 +321,26 @@ public class Controller {
      * 
      * @param categoriaId ID de la categoría
      * @param nuevaDescripcion Nueva descripción
-     * @throws ServicioException Si hay algún error al modificar la categoría
+     * @return true si la modificación fue exitosa, false en caso contrario
      */
-    public void modificarDescripcionCategoria(String categoriaId, 
-                                             String nuevaDescripcion) throws ServicioException {
-        
-        if (categoriaId == null || categoriaId.trim().isEmpty()) {
-            throw new ServicioException("El ID de la categoría es obligatorio");
-        }
-        if (nuevaDescripcion == null || nuevaDescripcion.trim().isEmpty()) {
-            throw new ServicioException("La nueva descripción es obligatoria");
-        }
+    public boolean modificarDescripcionCategoria(String categoriaId, 
+                                                String nuevaDescripcion) {
+        try {
+            if (categoriaId == null || categoriaId.trim().isEmpty()) {
+                logger.warn("Intento de modificar categoría con ID vacío");
+                return false;
+            }
+            if (nuevaDescripcion == null || nuevaDescripcion.trim().isEmpty()) {
+                logger.warn("Intento de modificar categoría con descripción vacía");
+                return false;
+            }
 
-        servicioCategorias.modificarDescripcion(categoriaId, nuevaDescripcion);
+            servicioCategorias.modificarDescripcion(categoriaId, nuevaDescripcion);
+            return true;
+        } catch (ServicioException e) {
+            logger.error("Error al modificar descripción de categoría con ID: " + categoriaId, e);
+            return false;
+        }
     }
 
     // ========== MÉTODOS AUXILIARES Y DE CONSULTA ==========
@@ -274,41 +348,55 @@ public class Controller {
     /**
      * Obtener todas las categorías raíz
      * 
-     * @return Lista de categorías raíz
-     * @throws ServicioException Si hay algún error
+     * @return Lista de categorías raíz, o lista vacía si hay algún error
      */
-    public List<Categoria> obtenerCategoriasRaiz() throws ServicioException {
-        return servicioCategorias.getCategoriasRaiz();
+    public List<Categoria> obtenerCategoriasRaiz() {
+        try {
+            return servicioCategorias.getCategoriasRaiz();
+        } catch (ServicioException e) {
+            logger.error("Error al obtener categorías raíz", e);
+            return Collections.emptyList();
+        }
     }
 
     /**
      * Obtener descendientes de una categoría
      * 
      * @param categoriaId ID de la categoría padre
-     * @return Lista de categorías descendientes
-     * @throws ServicioException Si hay algún error
+     * @return Lista de categorías descendientes, o lista vacía si hay algún error
      */
-    public List<Categoria> obtenerDescendientesCategoria(String categoriaId) throws ServicioException {
-        
-        if (categoriaId == null || categoriaId.trim().isEmpty()) {
-            throw new ServicioException("El ID de la categoría es obligatorio");
-        }
+    public List<Categoria> obtenerDescendientesCategoria(String categoriaId) {
+        try {
+            if (categoriaId == null || categoriaId.trim().isEmpty()) {
+                logger.warn("Intento de obtener descendientes con ID de categoría vacío");
+                return Collections.emptyList();
+            }
 
-        return servicioCategorias.getDescendientes(categoriaId);
+            return servicioCategorias.getDescendientes(categoriaId);
+        } catch (ServicioException e) {
+            logger.error("Error al obtener descendientes de categoría con ID: " + categoriaId, e);
+            return Collections.emptyList();
+        }
     }
 
     /**
      * Añadir visualización a un producto
      * 
      * @param productoId ID del producto
-     * @throws ServicioException Si hay algún error
+     * @return true si se añadió la visualización correctamente, false en caso contrario
      */
-    public void registrarVisualizacionProducto(String productoId) throws ServicioException {
-        
-        if (productoId == null || productoId.trim().isEmpty()) {
-            throw new ServicioException("El ID del producto es obligatorio");
-        }
+    public boolean registrarVisualizacionProducto(String productoId) {
+        try {
+            if (productoId == null || productoId.trim().isEmpty()) {
+                logger.warn("Intento de registrar visualización con ID de producto vacío");
+                return false;
+            }
 
-        servicioProductos.anadirVisualizacion(productoId);
+            servicioProductos.anadirVisualizacion(productoId);
+            return true;
+        } catch (ServicioException e) {
+            logger.error("Error al registrar visualización del producto con ID: " + productoId, e);
+            return false;
+        }
     }
 }

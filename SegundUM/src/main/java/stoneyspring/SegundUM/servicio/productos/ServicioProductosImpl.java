@@ -4,6 +4,9 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import stoneyspring.SegundUM.servicio.ServicioException;
 import stoneyspring.SegundUM.dominio.Categoria;
 import stoneyspring.SegundUM.dominio.EstadoProducto;
@@ -23,6 +26,8 @@ import stoneyspring.SegundUM.repositorio.EntidadNoEncontrada;
  */
 public class ServicioProductosImpl implements ServicioProductos {
 
+	private final Logger logger = LoggerFactory.getLogger(ServicioProductosImpl.class);
+	
     private final RepositorioProductos repositorioProductos;
     private final RepositorioCategorias repositorioCategorias;
     private final RepositorioUsuarios repositorioUsuarios;
@@ -37,18 +42,33 @@ public class ServicioProductosImpl implements ServicioProductos {
     public String altaProducto(String titulo, String descripcion, BigDecimal precio, EstadoProducto estado,
                                String categoriaId, boolean envioDisponible, String vendedorId) throws ServicioException {
         try {
-            // Obtener categoría y vendedor (verificamos existencia)
-            Categoria categoria = repositorioCategorias.getById(categoriaId);
-            Usuario vendedor = repositorioUsuarios.getById(vendedorId);
+            // VERIFICACIÓN: Obtener categoría y verificar que existe
+            Categoria categoria;
+            try {
+            	logger.info("Obteniendo categoría con ID: " + categoriaId);
+                categoria = repositorioCategorias.getById(categoriaId);
+            } catch (EntidadNoEncontrada e) {
+            	logger.error("Categoría con ID " + categoriaId + " no encontrada", e);
+                throw new ServicioException("La categoría con ID " + categoriaId + " no existe en el sistema", e);
+            }
+
+            // VERIFICACIÓN: Obtener vendedor y verificar que existe
+            Usuario vendedor;
+            try {
+            	logger.info("Obteniendo vendedor con ID: " + vendedorId);
+                vendedor = repositorioUsuarios.getById(vendedorId);
+            } catch (EntidadNoEncontrada e) {
+            	logger.error("Vendedor con ID " + vendedorId + " no encontrado", e);
+                throw new ServicioException("El vendedor con ID " + vendedorId + " no existe en el sistema", e);
+            }
 
             String id = UUID.randomUUID().toString();
 
             Producto p = new Producto(id, titulo, descripcion, precio, estado, categoria, envioDisponible, vendedor);
 
             return repositorioProductos.add(p);
-        } catch (EntidadNoEncontrada e) {
-            throw new ServicioException("Categoría o vendedor no encontrados", e);
         } catch (RepositorioException e) {
+        	logger.error("Error al dar de alta el producto", e);
             throw new ServicioException("Error al dar de alta el producto", e);
         }
     }
@@ -61,9 +81,12 @@ public class ServicioProductosImpl implements ServicioProductos {
             p.setRecogida(lugar);
             repositorioProductos.update(p);
         } catch (EntidadNoEncontrada e) {
-            throw new ServicioException("Producto no encontrado: " + productoId, e);
+            // VERIFICACIÓN: El producto no existe
+        	logger.error("Producto con ID " + productoId + " no encontrado", e);
+            throw new ServicioException("El producto con ID " + productoId + " no existe en el sistema", e);
         } catch (RepositorioException e) {
-            throw new ServicioException("Error al asignar lugar de recogida", e);
+        	logger.error("Error al asignar lugar de recogida al producto " + productoId, e);
+            throw new ServicioException("Error al asignar lugar de recogida al producto " + productoId, e);
         }
     }
 
@@ -75,8 +98,11 @@ public class ServicioProductosImpl implements ServicioProductos {
             if (nuevaDescripcion != null) p.setDescripcion(nuevaDescripcion);
             repositorioProductos.update(p);
         } catch (EntidadNoEncontrada e) {
-            throw new ServicioException("Producto no encontrado: " + productoId, e);
+            // VERIFICACIÓN: el producto no existe
+        	logger.error("Producto con ID " + productoId + " no encontrado", e);
+            throw new ServicioException("El producto con ID " + productoId + " no existe en el sistema", e);
         } catch (RepositorioException e) {
+        	logger.error("Error al modificar el producto " + productoId, e);
             throw new ServicioException("Error al modificar producto " + productoId, e);
         }
     }
@@ -88,16 +114,19 @@ public class ServicioProductosImpl implements ServicioProductos {
             p.incrementarVisualizaciones();
             repositorioProductos.update(p);
         } catch (EntidadNoEncontrada e) {
-            throw new ServicioException("Producto no encontrado: " + productoId, e);
+            // VERIFICACIÓN: el producto no existe
+        	logger.error("Producto con ID " + productoId + " no encontrado", e);
+            throw new ServicioException("El producto con ID " + productoId + " no existe en el sistema", e);
         } catch (RepositorioException e) {
-            throw new ServicioException("Error al añadir visualización", e);
+        	logger.error("Error al añadir visualización al producto " + productoId, e);
+            throw new ServicioException("Error al añadir visualización al producto " + productoId, e);
         }
     }
 
     @Override
-    public List<ResumenProducto> historialMes(int mes, int anio) throws ServicioException {
+    public List<ResumenProducto> historialMes(int mes, int anio, String emailVendedor) throws ServicioException {
         try {
-            return repositorioProductos.getHistorialMes(mes, anio);
+            return repositorioProductos.getHistorialMes(mes, anio, emailVendedor);
         } catch (RepositorioException e) {
             throw new ServicioException("Error al obtener historial del mes", e);
         }
@@ -106,8 +135,10 @@ public class ServicioProductosImpl implements ServicioProductos {
     @Override
     public List<Producto> buscarProductos(String categoriaId, String texto, EstadoProducto estadoMinimo, BigDecimal precioMaximo) throws ServicioException {
         try {
+        	logger.info("Buscando productos con filtros - Categoría ID: " + categoriaId + ", Texto: " + texto + ", Estado mínimo: " + estadoMinimo + ", Precio máximo: " + precioMaximo);
             return repositorioProductos.buscarProductos(categoriaId, texto, estadoMinimo, precioMaximo);
         } catch (RepositorioException e) {
+        	logger.error("Error buscando productos con los filtros proporcionados", e);
             throw new ServicioException("Error buscando productos", e);
         }
     }

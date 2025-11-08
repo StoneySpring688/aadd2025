@@ -30,7 +30,7 @@ public class Producto implements Identificable {
     @Column(name = "fecha_publicacion", nullable = false)
     private LocalDateTime fechaPublicacion;
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "categoria_id", nullable = false)
     private Categoria categoria;
     
@@ -48,7 +48,7 @@ public class Producto implements Identificable {
     })
     private LugarRecogida recogida;
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "vendedor_id", nullable = false)
     private Usuario vendedor;
     

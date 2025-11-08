@@ -35,7 +35,7 @@ public class Usuario implements Identificable {
     @Column(nullable = false)
     private boolean administrador;
     
-    @OneToMany(mappedBy = "vendedor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "vendedor", cascade = CascadeType.ALL)
     private List<Producto> productos = new ArrayList<>();
     
     // Constructor por defecto para JPA

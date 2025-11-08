@@ -30,16 +30,16 @@ public class Categoria implements Identificable {
 	@XmlAttribute
 	private String ruta;
 
-	@OneToMany(mappedBy = "categoriaPadre", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+	@OneToMany(mappedBy = "categoriaPadre", cascade = CascadeType.ALL, orphanRemoval = true)
 	@XmlElement(name = "categoria")
 	private List<Categoria> subcategorias = new ArrayList<>();
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "categoria_padre_id")
 	@XmlTransient
 	private Categoria categoriaPadre;
 
-	@OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
 	@XmlTransient
 	private List<Producto> productos = new ArrayList<>();
 
@@ -153,9 +153,10 @@ public class Categoria implements Identificable {
 				(categoriaPadre != null ? categoriaPadre.getId() : "null") + 
 				", subcategoriasCount=" + subcategorias.size() + "}";
 
-		for (Categoria sub : getSubcategorias()) {
-			toString += "\n  Subcategoria: " + sub.toString().replace("\n", "\n  ");
-		}
+		/*
+		 * for (Categoria sub : getSubcategorias()) { toString += "\n  Subcategoria: " +
+		 * sub.toString().replace("\n", "\n  "); }
+		 */
 
 		return toString;
 	}

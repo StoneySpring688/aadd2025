@@ -38,7 +38,7 @@ public interface ServicioProductos {
     /**
      * Historial del mes: devuelve resumen ordenado por visualizaciones (desc).
      */
-    List<ResumenProducto> historialMes(int mes, int anio) throws ServicioException;
+    List<ResumenProducto> historialMes(int mes, int anio, String emailVendedor) throws ServicioException;
 
     /**
      * Buscar productos con los criterios opcionales.

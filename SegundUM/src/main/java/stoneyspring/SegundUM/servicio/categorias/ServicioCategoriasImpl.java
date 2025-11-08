@@ -29,6 +29,7 @@ public class ServicioCategoriasImpl implements ServicioCategorias {
 
     @Override
     public void cargarJerarquia(String ruta) throws ServicioException {
+    	// las verificaciones sobre el fichero xml las hace el repositorioXML
         try {
             Categoria raiz = repositorioCategoriasXML.getById(ruta);
             if (!repositorioCategorias.existe(raiz.getId())) {
@@ -54,8 +55,11 @@ public class ServicioCategoriasImpl implements ServicioCategorias {
             c.setDescripcion(nuevaDescripcion);
             repositorioCategorias.update(c);
         } catch (EntidadNoEncontrada e) {
-            throw new ServicioException("La categoría " + categoriaId + " no existe", e);
+            // VERIFICACIÓN: la categoría no existe
+        	logger.error("La categoría con ID " + categoriaId + " no existe en el sistema", e);
+            throw new ServicioException("La categoría con ID " + categoriaId + " no existe en el sistema", e);
         } catch (RepositorioException e) {
+        	logger.error("Error al modificar la descripción de la categoría " + categoriaId, e);
             throw new ServicioException("Error al modificar la descripción de la categoría " + categoriaId, e);
         }
     }
@@ -63,8 +67,10 @@ public class ServicioCategoriasImpl implements ServicioCategorias {
     @Override
     public List<Categoria> getCategoriasRaiz() throws ServicioException {
         try {
+        	logger.info("Recuperando categorías raíz");
             return repositorioCategorias.getCategoriasRaiz();
         } catch (RepositorioException e) {
+        	logger.error("Error al recuperar categorías raíz", e);
             throw new ServicioException("Error al recuperar categorías raíz", e);
         }
     }
@@ -72,10 +78,14 @@ public class ServicioCategoriasImpl implements ServicioCategorias {
     @Override
     public List<Categoria> getDescendientes(String categoriaId) throws ServicioException {
         try {
+        	logger.info("Recuperando descendientes de la categoría con ID " + categoriaId);
             return repositorioCategorias.getDescendientes(categoriaId);
         } catch (EntidadNoEncontrada e) {
-            throw new ServicioException("La categoría " + categoriaId + " no existe", e);
+            // VERIFICACIÓN: la categoría no existe
+        	logger.error("La categoría con ID " + categoriaId + " no existe en el sistema", e);
+            throw new ServicioException("La categoría con ID " + categoriaId + " no existe en el sistema", e);
         } catch (RepositorioException e) {
+        	logger.error("Error al recuperar descendientes de " + categoriaId, e);
             throw new ServicioException("Error al recuperar descendientes de " + categoriaId, e);
         }
     }

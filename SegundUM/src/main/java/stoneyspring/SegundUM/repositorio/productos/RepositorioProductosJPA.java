@@ -118,20 +118,33 @@ public class RepositorioProductosJPA extends RepositorioJPA<Producto> implements
     }
     
     @Override
-    public List<ResumenProducto> getHistorialMes(int mes, int anio) throws RepositorioException {
+    public List<ResumenProducto> getHistorialMes(int mes, int anio, String emailVendedor) throws RepositorioException {
         EntityManager em = EntityManagerHelper.getEntityManager();
         try {
             // Crear fechas de inicio y fin del mes
             LocalDateTime inicio = LocalDateTime.of(anio, mes, 1, 0, 0);
             LocalDateTime fin = inicio.plusMonths(1);
             
-            TypedQuery<Producto> query = em.createQuery(
-                "SELECT p FROM Producto p WHERE p.fechaPublicacion >= :inicio AND p.fechaPublicacion < :fin " +
-                "ORDER BY p.visualizaciones DESC", 
-                Producto.class
+            // Construir la consulta dinámicamente según si hay email o no
+            StringBuilder jpql = new StringBuilder(
+                "SELECT p FROM Producto p WHERE p.fechaPublicacion >= :inicio AND p.fechaPublicacion < :fin"
             );
+            
+            // Si se proporciona email de vendedor, añadir filtro
+            if (emailVendedor != null && !emailVendedor.trim().isEmpty()) {
+                jpql.append(" AND p.vendedor.email = :email");
+            }
+            
+            jpql.append(" ORDER BY p.visualizaciones DESC");
+            
+            TypedQuery<Producto> query = em.createQuery(jpql.toString(), Producto.class);
             query.setParameter("inicio", inicio);
             query.setParameter("fin", fin);
+            
+            // Establecer parámetro de email si está presente
+            if (emailVendedor != null && !emailVendedor.trim().isEmpty()) {
+                query.setParameter("email", emailVendedor);
+            }
             
             List<Producto> productos = query.getResultList();
             
@@ -147,7 +160,11 @@ public class RepositorioProductosJPA extends RepositorioJPA<Producto> implements
                 ))
                 .collect(Collectors.toList());
         } catch (Exception e) {
-            throw new RepositorioException("Error al obtener historial del mes " + mes + "/" + anio, e);
+            throw new RepositorioException(
+                "Error al obtener historial del mes " + mes + "/" + anio + 
+                (emailVendedor != null ? " para el vendedor " + emailVendedor : ""), 
+                e
+            );
         } finally {
             EntityManagerHelper.closeEntityManager();
         }

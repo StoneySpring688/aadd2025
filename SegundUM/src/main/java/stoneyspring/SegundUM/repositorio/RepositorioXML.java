@@ -12,6 +12,13 @@ import javax.xml.bind.Unmarshaller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
+/**
+ * <p>
+ * Esta clase la he porteado desde el proyecto {@link encuestas} así que con <i>id</i> se refiere al nombre del fichero XML.<br>
+ * <b>Ejemplo : Electronica.xml</b> es el id que se le pasaría a los métodos para que lean el fichero desde el directorio <i>categoriasXML/</i>.
+ * </p>
+ * */
 public abstract class RepositorioXML<T extends Identificable> implements RepositorioString<T> {
 	
 	Logger logger = LoggerFactory.getILoggerFactory().getLogger(RepositorioXML.class.getName());
