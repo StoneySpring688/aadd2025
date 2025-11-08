@@ -11,7 +11,7 @@ import javax.xml.bind.Unmarshaller;
 
 public abstract class RepositorioXML<T extends Identificable> implements RepositorioString<T> {
 
-	public final static String DIRECTORIO = "categoriasXML/";
+	public final static String DIRECTORIO = "resources/categoriasXML/";
 
 	static {
 
