@@ -4,13 +4,10 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
     <persistence-unit name="SegundUM">
-        <!-- Entidades del dominio -->
         <class>stoneyspring.SegundUM.dominio.Usuario</class>
         <class>stoneyspring.SegundUM.dominio.Producto</class>
         <class>stoneyspring.SegundUM.dominio.Categoria</class>
-        
         <properties>
-            <!-- Configuración de la conexión a MySQL -->
             <property name="javax.persistence.jdbc.driver"
                 value="com.mysql.cj.jdbc.Driver" />
             <property name="javax.persistence.jdbc.user" value="aadd25" />
@@ -18,29 +15,14 @@
                 value="aadd25" />
             <property name="javax.persistence.jdbc.url"
                 value="jdbc:mysql://localhost:3306/segundum?serverTimezone=CET" />
-            
-            <!-- Configuración de EclipseLink -->
-            <!-- Crea las tablas automáticamente si no existen o las extiende -->
             <property name="eclipselink.ddl-generation"
                 value="create-or-extend-tables" />
-            
-            <!-- Desactiva la caché de resultados de consultas -->
             <property name="eclipselink.query-results-cache"
                 value="false" />
-            
-            <!-- Desactiva la caché compartida -->
             <property name="eclipselink.cache.shared.default"
                 value="false" />
-            
-            <!-- Tamaño de caché a 0 -->
             <property name="eclipselink.cache.size.default" value="0" />
-            
-            <!-- Refresca siempre los datos desde la base de datos -->
             <property name="eclipselink.refresh" value="true" />
-            
-            <!-- Registra las sentencias SQL (útil para depuración) -->
-            <property name="eclipselink.logging.level.sql" value="FINE"/>
-            <property name="eclipselink.logging.parameters" value="true"/>
         </properties>
     </persistence-unit>
 </persistence>
