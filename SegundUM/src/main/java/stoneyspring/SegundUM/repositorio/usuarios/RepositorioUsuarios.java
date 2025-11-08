@@ -1,4 +1,4 @@
-package stoneyspring.SegundUM.repositorio.AdHoc;
+package stoneyspring.SegundUM.repositorio.usuarios;
 
 import stoneyspring.SegundUM.dominio.Usuario;
 import stoneyspring.SegundUM.repositorio.EntidadNoEncontrada;

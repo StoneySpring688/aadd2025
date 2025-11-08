@@ -15,8 +15,9 @@ import stoneyspring.SegundUM.dominio.EstadoProducto;
 import stoneyspring.SegundUM.dominio.LugarRecogida;
 import stoneyspring.SegundUM.dominio.Producto;
 import stoneyspring.SegundUM.dominio.Usuario;
-import stoneyspring.SegundUM.repositorio.AdHoc.RepositorioProductos;
-import stoneyspring.SegundUM.repositorio.AdHoc.RepositorioUsuarios;
+import stoneyspring.SegundUM.repositorio.categorias.RepositorioCategorias;
+import stoneyspring.SegundUM.repositorio.productos.RepositorioProductos;
+import stoneyspring.SegundUM.repositorio.usuarios.RepositorioUsuarios;
 
 class RepositorioTest {
 
@@ -26,15 +27,10 @@ class RepositorioTest {
 
     @BeforeEach
     void setUp() {
-        // Inicializar repositorios
+        // Inicializar repositorios usando la factoría
         repositorioUsuarios = FactoriaRepositorios.getRepositorio(Usuario.class);
         repositorioCategorias = FactoriaRepositorios.getRepositorio(Categoria.class);
         repositorioProductos = FactoriaRepositorios.getRepositorio(Producto.class);
-    }
-
-    @AfterEach
-    void tearDown() {
-        // Limpiar después de cada test si es necesario
     }
 
     @Test

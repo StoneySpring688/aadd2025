@@ -41,6 +41,11 @@ public class Producto implements Identificable {
     private boolean envioDisponible;
     
     @Embedded
+    @AttributeOverrides({
+        @AttributeOverride(name = "descripcion", column = @Column(name = "recogida_descripcion", length = 500)),
+        @AttributeOverride(name = "longitud", column = @Column(name = "recogida_longitud")),
+        @AttributeOverride(name = "latitud", column = @Column(name = "recogida_latitud"))
+    })
     private LugarRecogida recogida;
     
     @ManyToOne(fetch = FetchType.LAZY)

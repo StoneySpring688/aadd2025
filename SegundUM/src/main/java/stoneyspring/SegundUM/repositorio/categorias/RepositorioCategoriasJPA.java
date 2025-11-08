@@ -1,4 +1,4 @@
-package stoneyspring.SegundUM.repositorio.AdHoc;
+package stoneyspring.SegundUM.repositorio.categorias;
 
 import java.util.List;
 

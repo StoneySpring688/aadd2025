@@ -1,4 +1,4 @@
-package stoneyspring.SegundUM.repositorio.AdHoc;
+package stoneyspring.SegundUM.repositorio.usuarios;
 
 import java.util.List;
 

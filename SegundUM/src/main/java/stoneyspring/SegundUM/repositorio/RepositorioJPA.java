@@ -11,9 +11,6 @@ import org.eclipse.persistence.config.QueryHints;
 
 import stoneyspring.SegundUM.utils.EntityManagerHelper;
 
-/**
- * Implementación base de repositorio usando JPA para persistencia en MySQL.
- */
 public abstract class RepositorioJPA<T extends Identificable> implements RepositorioString<T> {
     
     public abstract Class<T> getClase();

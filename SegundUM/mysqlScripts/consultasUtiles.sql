@@ -1,11 +1,6 @@
 -- CUIDADO: Esto borra TODOS los datos [REINICIAR BD]
-SET FOREIGN_KEY_CHECKS = 0;
-
-TRUNCATE TABLE productos;
-TRUNCATE TABLE categorias;
-TRUNCATE TABLE usuarios;
-
-SET FOREIGN_KEY_CHECKS = 1;
+DROP DATABASE segundum;
+CREATE DATABASE segundum CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- Ver todos los productos con su categoría y vendedor
 SELECT 

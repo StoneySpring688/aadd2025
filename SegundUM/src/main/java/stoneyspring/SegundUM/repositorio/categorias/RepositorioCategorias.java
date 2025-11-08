@@ -1,8 +1,11 @@
-package stoneyspring.SegundUM.repositorio;
+package stoneyspring.SegundUM.repositorio.categorias;
 
 import java.util.List;
 
 import stoneyspring.SegundUM.dominio.Categoria;
+import stoneyspring.SegundUM.repositorio.EntidadNoEncontrada;
+import stoneyspring.SegundUM.repositorio.RepositorioException;
+import stoneyspring.SegundUM.repositorio.RepositorioString;
 
 /**
  * Repositorio específico para Categorías con operaciones AdHoc.

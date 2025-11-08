@@ -1,4 +1,4 @@
-package stoneyspring.SegundUM.repositorio.AdHoc;
+package stoneyspring.SegundUM.repositorio.productos;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
