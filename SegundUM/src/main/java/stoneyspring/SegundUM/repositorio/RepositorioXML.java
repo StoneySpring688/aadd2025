@@ -9,9 +9,14 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
-public abstract class RepositorioXML<T extends Identificable> implements RepositorioString<T> {
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-	public final static String DIRECTORIO = "resources/categoriasXML/";
+public abstract class RepositorioXML<T extends Identificable> implements RepositorioString<T> {
+	
+	Logger logger = LoggerFactory.getILoggerFactory().getLogger(RepositorioXML.class.getName());
+
+	public final static String DIRECTORIO = "categoriasXML/";
 
 	static {
 
@@ -28,6 +33,11 @@ public abstract class RepositorioXML<T extends Identificable> implements Reposit
 
 	protected String getDocumento(String id) {
 
+		if (id.endsWith(".xml")) { // si es un xml concreto
+			logger.debug("El id proporcionado es un nombre de fichero XML: " + id);
+			return DIRECTORIO + id;
+		}
+		// Si no, asumimos que es generado por el repositorioXML
 		return DIRECTORIO + getClase().getSimpleName() + "-" + id + ".xml";
 	}
 
@@ -36,6 +46,8 @@ public abstract class RepositorioXML<T extends Identificable> implements Reposit
 		final String documento = getDocumento(id);
 
 		File fichero = new File(documento);
+		
+		logger.debug("Comprobando existencia del fichero: " + documento + " - Existe: " + fichero.exists());
 
 		return fichero.exists();
 	}
