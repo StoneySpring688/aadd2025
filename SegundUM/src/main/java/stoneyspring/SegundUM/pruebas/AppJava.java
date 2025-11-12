@@ -112,8 +112,7 @@ public class AppJava {
 		logger.info("6. Obteniendo resumen mensual de productos...");
 		int mesActual = LocalDate.now().getMonthValue();
 		int anioActual = LocalDate.now().getYear();
-		String emailUsuario = "juan.perez@email.com";
-		List<ResumenProducto> resumen = controlador.obtenerResumenMensual(mesActual, anioActual, emailUsuario);
+		List<ResumenProducto> resumen = controlador.obtenerResumenMensual(mesActual, anioActual);
 		
 		logger.info("Resumen del mes " + mesActual + "/" + anioActual + ":");
 		for (ResumenProducto r : resumen) {

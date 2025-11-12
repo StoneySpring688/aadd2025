@@ -245,11 +245,10 @@ public class Controller {
      * 
      * @param mes Mes (1-12)
      * @param anio Año
-     * @param emailVendedor Email del vendedor (opcional, puede ser null para obtener todos)
      * @return Lista de resúmenes de productos ordenados por visualizaciones (descendente),
      *         o lista vacía si hay algún error
      */
-    public List<ResumenProducto> obtenerResumenMensual(int mes, int anio, String emailVendedor) {
+    public List<ResumenProducto> obtenerResumenMensual(int mes, int anio) {
         try {
             if (mes < 1 || mes > 12) {
                 logger.warn("Intento de obtener resumen mensual con mes inválido: " + mes);
@@ -260,7 +259,7 @@ public class Controller {
                 return Collections.emptyList();
             }
 
-            return servicioProductos.historialMes(mes, anio, emailVendedor);
+            return servicioProductos.historialMes(mes, anio);
         } catch (ServicioException e) {
             logger.error("Error al obtener resumen mensual para " + mes + "/" + anio, e);
             return Collections.emptyList();

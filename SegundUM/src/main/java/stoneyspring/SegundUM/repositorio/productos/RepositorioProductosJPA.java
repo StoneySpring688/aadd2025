@@ -54,10 +54,8 @@ public class RepositorioProductosJPA extends RepositorioJPA<Producto> implements
     ) throws RepositorioException {
         EntityManager em = EntityManagerHelper.getEntityManager();
         try {
-            // Construir la consulta dinámicamente
             StringBuilder jpql = new StringBuilder("SELECT p FROM Producto p WHERE 1=1");
             
-            // Lista de categorías a buscar (incluye descendientes)
             List<String> categoriasIds = new ArrayList<>();
             if (categoriaId != null) {
                 Categoria categoria = em.find(Categoria.class, categoriaId);
@@ -85,7 +83,6 @@ public class RepositorioProductosJPA extends RepositorioJPA<Producto> implements
             
             TypedQuery<Producto> query = em.createQuery(jpql.toString(), Producto.class);
             
-            // Establecer parámetros
             if (!categoriasIds.isEmpty()) {
                 query.setParameter("categoriasIds", categoriasIds);
             }
@@ -95,7 +92,6 @@ public class RepositorioProductosJPA extends RepositorioJPA<Producto> implements
             }
             
             if (estadoMinimo != null) {
-                // Filtrar estados iguales o mejores
                 List<EstadoProducto> estadosValidos = new ArrayList<>();
                 for (EstadoProducto estado : EstadoProducto.values()) {
                     if (estado.esMejorOIgualQue(estadoMinimo)) {
@@ -121,16 +117,16 @@ public class RepositorioProductosJPA extends RepositorioJPA<Producto> implements
     public List<ResumenProducto> getHistorialMes(int mes, int anio, String emailVendedor) throws RepositorioException {
         EntityManager em = EntityManagerHelper.getEntityManager();
         try {
-            // Crear fechas de inicio y fin del mes
+            // inicio y fin del mes
             LocalDateTime inicio = LocalDateTime.of(anio, mes, 1, 0, 0);
             LocalDateTime fin = inicio.plusMonths(1);
             
-            // Construir la consulta dinámicamente según si hay email o no
+            // consulta
             StringBuilder jpql = new StringBuilder(
                 "SELECT p FROM Producto p WHERE p.fechaPublicacion >= :inicio AND p.fechaPublicacion < :fin"
             );
             
-            // Si se proporciona email de vendedor, añadir filtro
+            // Si email de vendedor, añadir filtro
             if (emailVendedor != null && !emailVendedor.trim().isEmpty()) {
                 jpql.append(" AND p.vendedor.email = :email");
             }
@@ -141,14 +137,14 @@ public class RepositorioProductosJPA extends RepositorioJPA<Producto> implements
             query.setParameter("inicio", inicio);
             query.setParameter("fin", fin);
             
-            // Establecer parámetro de email si está presente
+            // parámetro de email si está presente
             if (emailVendedor != null && !emailVendedor.trim().isEmpty()) {
                 query.setParameter("email", emailVendedor);
             }
             
             List<Producto> productos = query.getResultList();
             
-            // Convertir a ResumenProducto
+            // ResumenProducto
             return productos.stream()
                 .map(p -> new ResumenProducto(
                     p.getId(),
@@ -188,4 +184,43 @@ public class RepositorioProductosJPA extends RepositorioJPA<Producto> implements
             EntityManagerHelper.closeEntityManager();
         }
     }
+
+	@Override
+	public List<ResumenProducto> getHistorialMes(int mes, int anio) throws RepositorioException {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+        try {
+            // inicio y fin del mes
+            LocalDateTime inicio = LocalDateTime.of(anio, mes, 1, 0, 0);
+            LocalDateTime fin = inicio.plusMonths(1);
+            
+         // consulta
+            StringBuilder jpql = new StringBuilder(
+                "SELECT p FROM Producto p WHERE p.fechaPublicacion >= :inicio AND p.fechaPublicacion < :fin"
+            );
+            
+            jpql.append(" ORDER BY p.visualizaciones DESC");
+            
+            TypedQuery<Producto> query = em.createQuery(jpql.toString(), Producto.class);
+            query.setParameter("inicio", inicio);
+            query.setParameter("fin", fin);
+            
+            List<Producto> productos = query.getResultList();
+            
+            // ResumenProducto
+            return productos.stream()
+                .map(p -> new ResumenProducto(
+                    p.getId(),
+                    p.getTitulo(),
+                    p.getPrecio(),
+                    p.getFechaPublicacion(),
+                    p.getCategoria().getNombre(),
+                    p.getVisualizaciones()
+                ))
+                .collect(Collectors.toList());
+        } catch (Exception e) {
+            throw new RepositorioException("Error al obtener historial del mes " + mes + "/" + anio , e);
+        } finally {
+            EntityManagerHelper.closeEntityManager();
+        }
+	}
 }

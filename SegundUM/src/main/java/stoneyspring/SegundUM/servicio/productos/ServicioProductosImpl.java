@@ -124,7 +124,7 @@ public class ServicioProductosImpl implements ServicioProductos {
     }
 
     @Override
-    public List<ResumenProducto> historialMes(int mes, int anio, String emailVendedor) throws ServicioException {
+    public List<ResumenProducto> historialMesVendedor(int mes, int anio, String emailVendedor) throws ServicioException {
         try {
             return repositorioProductos.getHistorialMes(mes, anio, emailVendedor);
         } catch (RepositorioException e) {
@@ -142,4 +142,13 @@ public class ServicioProductosImpl implements ServicioProductos {
             throw new ServicioException("Error buscando productos", e);
         }
     }
+
+	@Override
+	public List<ResumenProducto> historialMes(int mes, int anio) throws ServicioException {
+		try {
+            return repositorioProductos.getHistorialMes(mes, anio);
+        } catch (RepositorioException e) {
+            throw new ServicioException("Error al obtener historial del mes", e);
+        }
+	}
 }

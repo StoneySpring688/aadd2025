@@ -36,9 +36,14 @@ public interface ServicioProductos {
     void anadirVisualizacion(String productoId) throws ServicioException;
 
     /**
-     * Historial del mes: devuelve resumen ordenado por visualizaciones (desc).
+     * Historial del mes de un vendedor: devuelve resumen ordenado por visualizaciones (desc).
      */
-    List<ResumenProducto> historialMes(int mes, int anio, String emailVendedor) throws ServicioException;
+    List<ResumenProducto> historialMesVendedor(int mes, int anio, String emailVendedor) throws ServicioException;
+    
+    /**
+     * Historial del mes de: devuelve resumen ordenado por visualizaciones (desc).
+     */
+    List<ResumenProducto> historialMes(int mes, int anio) throws ServicioException;
 
     /**
      * Buscar productos con los criterios opcionales.
