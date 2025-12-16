@@ -43,7 +43,7 @@ public class ServicioCategoriasImpl implements ServicioCategorias {
         	logger.error("Error accediendo al repositorio de categorías", e);
             throw new ServicioException("Error accediendo al repositorio de categorías", e);
         } catch (Exception e) {
-        	logger.error("Error al cargar la jerarquía desde el XML: " + ruta, e);
+        	logger.error("Error al cargar la jerarquía desde el XML: " + ruta, "casusa : " + e.getCause(), e);
             throw new ServicioException("Error al cargar la jerarquía desde el XML: " + ruta, e);
         }
     }

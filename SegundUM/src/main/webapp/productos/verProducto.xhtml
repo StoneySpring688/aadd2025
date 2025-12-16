@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+    <title>#{productoBean.productoSeleccionado.titulo} - Detalle</title>
+</h:head>
+
+<h:body>
+    <h:form>
+        <p:menubar>
+            <p:menuitem value="Volver" action="/index?faces-redirect=true" icon="pi pi-arrow-left"/>
+        </p:menubar>
+    </h:form>
+
+    <div style="display: flex; justify-content: center; padding: 30px;">
+        
+        <h:outputText value="No se ha seleccionado ningún producto." 
+                      rendered="#{productoBean.productoSeleccionado == null}" 
+                      style="font-size: 1.5em; color: red;"/>
+
+        <p:card style="width: 800px; margin-bottom: 2em" rendered="#{productoBean.productoSeleccionado != null}">
+            
+            <f:facet name="title">
+                #{productoBean.productoSeleccionado.titulo}
+            </f:facet>
+            
+            <f:facet name="subtitle">
+                Categoría: #{productoBean.productoSeleccionado.categoria.nombre}
+            </f:facet>
+
+            <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+                         columnClasses="ui-grid-col-4, ui-grid-col-8">
+                
+                <h:panelGroup>
+                    <div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px;">
+                        <h:outputText value="Precio" style="display:block; color:gray; font-size:0.9em"/>
+                        <h:outputText value="#{productoBean.productoSeleccionado.precio}" style="font-size: 2em; color: #2E7D32; font-weight: bold">
+                            <f:convertNumber type="currency" currencySymbol="€"/>
+                        </h:outputText>
+                        
+                        <p:divider />
+                        
+                        <h:outputText value="Estado" style="display:block; color:gray; font-size:0.9em"/>
+                        <p:tag value="#{productoBean.productoSeleccionado.estado}" style="margin-top:5px"/>
+                        
+                        <p:divider />
+                        
+                        <h:outputText value="Vendedor" style="display:block; color:gray; font-size:0.9em"/>
+                        <div style="display:flex; align-items:center; margin-top:5px">
+                            <i class="pi pi-user" style="margin-right: 5px"></i>
+                            <h:outputText value="#{productoBean.productoSeleccionado.vendedor.nombre}" style="font-weight:bold"/>
+                        </div>
+                        
+                        <p:divider />
+
+                        <div style="text-align: center; color: gray; font-size: 0.8em;">
+                            <i class="pi pi-eye"></i> #{productoBean.productoSeleccionado.visualizaciones} visualizaciones
+                        </div>
+                    </div>
+                </h:panelGroup>
+
+                <h:panelGroup>
+                    <h3>Descripción</h3>
+                    <p style="line-height: 1.6;">#{productoBean.productoSeleccionado.descripcion}</p>
+                    
+                    <p:divider />
+                    
+                    <h3>Opciones de Entrega</h3>
+                    <div style="display: flex; gap: 20px;">
+                        <div style="flex: 1;">
+                            <i class="pi pi-send" style="color: #{productoBean.productoSeleccionado.envioDisponible ? 'green' : 'red'}"></i>
+                            <h:outputText value=" Envío disponible" rendered="#{productoBean.productoSeleccionado.envioDisponible}" style="font-weight:bold"/>
+                            <h:outputText value=" No hago envíos" rendered="#{not productoBean.productoSeleccionado.envioDisponible}" style="color: gray"/>
+                        </div>
+
+                        <div style="flex: 1;">
+                            <i class="pi pi-map-marker"></i>
+                            <h:outputText value=" Recogida en mano:" style="font-weight:bold"/>
+                            <br/>
+                            <h:outputText value="#{productoBean.productoSeleccionado.recogida.descripcion}" 
+                                          rendered="#{not empty productoBean.productoSeleccionado.recogida.descripcion}"/>
+                            <h:outputText value="No especificado" 
+                                          rendered="#{empty productoBean.productoSeleccionado.recogida.descripcion}" 
+                                          style="font-style: italic; color: gray"/>
+                        </div>
+                    </div>
+                    
+                    <p:divider />
+                    
+                    <div style="color: gray; font-size: 0.8em; text-align: right;">
+                        Publicado el: 
+                        <h:outputText value="#{productoBean.productoSeleccionado.fechaPublicacion}">
+                            <f:convertDateTime type="localDate" pattern="dd 'de' MMMM 'de' yyyy"/>
+                        </h:outputText>
+                    </div>
+
+                </h:panelGroup>
+            </p:panelGrid>
+
+            <f:facet name="footer">
+                <p:button value="Volver" outcome="/index" styleClass="ui-button-secondary ui-button-flat"/>
+            </f:facet>
+        </p:card>
+    </div>
+</h:body>
+</html>

@@ -13,10 +13,10 @@
 		<p:menubar>
 			<p:menuitem value="SegundUM" url="/index.xhtml"
 				style="font-weight:bold" />
-				
+
 			<p:menuitem value="Buscar Productos" url="/productos/busqueda.xhtml"
 				icon="pi pi-search" />
-				
+
 			<f:facet name="options">
 				<span style="margin-right: 15px">Hola, <b>#{sesionBean.usuarioLogueado.nombre}</b></span>
 				<p:commandButton value="Cerrar Sesión"
@@ -94,6 +94,12 @@
 							<f:setPropertyActionListener value="#{prod}"
 								target="#{productoBean.productoSeleccionado}" />
 						</p:commandButton>
+					</p:column>
+
+					<p:column style="width: 50px; text-align: center;">
+						<p:commandButton icon="pi pi-eye"
+							action="#{productoBean.verDetalle(prod)}" title="Ver Detalle"
+							styleClass="ui-button-rounded ui-button-info ui-button-flat" />
 					</p:column>
 
 				</p:dataTable>

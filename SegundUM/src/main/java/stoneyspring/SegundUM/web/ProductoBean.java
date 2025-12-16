@@ -9,6 +9,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
@@ -21,7 +22,7 @@ import stoneyspring.SegundUM.servicio.categorias.ServicioCategorias;
 import stoneyspring.SegundUM.servicio.productos.ServicioProductos;
 
 @ManagedBean
-@ViewScoped
+@SessionScoped
 public class ProductoBean implements Serializable {
 
     private String titulo;
@@ -30,6 +31,7 @@ public class ProductoBean implements Serializable {
     private EstadoProducto estado;
     private String categoriaIdSeleccionada;
     private boolean envioDisponible;
+    private String recogidaDescripcion;
 
     private List<Categoria> listaCategorias;
     private List<Producto> misProductos;
@@ -78,7 +80,8 @@ public class ProductoBean implements Serializable {
         try {
             String vendedorId = sesionBean.getUsuarioLogueado().getId();
 
-            servicioProductos.altaProducto(
+            // producto básico
+            String nuevoId = servicioProductos.altaProducto(
                 titulo, 
                 descripcion, 
                 precio, 
@@ -88,6 +91,18 @@ public class ProductoBean implements Serializable {
                 vendedorId
             );
 
+            // Si el usuario escribió un lugar, asignarlo
+            if (recogidaDescripcion != null && !recogidaDescripcion.trim().isEmpty()) {
+                servicioProductos.asignarLugarRecogida(nuevoId, recogidaDescripcion, null, null); 
+            }
+
+            this.misProductos = servicioProductos.getProductosPorVendedor(vendedorId); 
+            
+            this.titulo = "";
+            this.descripcion = "";
+            this.precio = null;
+            this.recogidaDescripcion = "";
+            
             FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
             FacesContext.getCurrentInstance().addMessage(null, 
                 new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito", "Producto publicado correctamente."));
@@ -122,6 +137,29 @@ public class ProductoBean implements Serializable {
         } catch (ServicioException e) {
             FacesContext.getCurrentInstance().addMessage(null, 
                 new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
+        }
+    }
+    
+    public String verDetalle(Producto producto) {
+        try {
+            // Guardamos el producto en el bean para mostrarlo en la siguiente vista
+            this.productoSeleccionado = producto;
+
+            // REQUISITO: Incrementar visualización
+            servicioProductos.anadirVisualizacion(producto.getId());
+            
+            // Actualizamos el contador en el objeto local para que se vea el +1 inmediatamente en la vista
+            if (this.productoSeleccionado.getVisualizaciones() != null) {
+                this.productoSeleccionado.setVisualizaciones(this.productoSeleccionado.getVisualizaciones() + 1);
+            }
+
+            // Navegamos a la vista de detalle
+            return "/productos/verProducto"; // Sin redirect para mantener el objeto productoSeleccionado en el ViewScope
+
+        } catch (ServicioException e) {
+            FacesContext.getCurrentInstance().addMessage(null, 
+                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se pudo cargar el producto."));
+            return null;
         }
     }
     
@@ -163,6 +201,9 @@ public class ProductoBean implements Serializable {
     public List<Producto> getProductosEncontrados() { return productosEncontrados; }
     
     // Getters y Setters
+    public String getRecogidaDescripcion() { return recogidaDescripcion; }
+    public void setRecogidaDescripcion(String recogidaDescripcion) { this.recogidaDescripcion = recogidaDescripcion; }
+    
     public List<Producto> getMisProductos() { return misProductos; }
 
     public EstadoProducto[] getEstadosPosibles() { return EstadoProducto.values(); }

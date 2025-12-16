@@ -20,6 +20,9 @@ import stoneyspring.SegundUM.servicio.usuarios.ServicioUsuarios;
 
 /**
  * Controlador principal de la aplicación.
+ * <br>
+ * <b>Solo se va ha usar el método cargarCategorias para la vista, pues en verdad el uso del controlador para gestionar las vistas solo me genera más caos para este entregable</b>
+ * <br>
  * <p>
  * Este controlador captura todas las excepciones de los servicios y las gestiona
  * sin interrumpir la ejecución del programa. Los errores se registran mediante
