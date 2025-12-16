@@ -19,14 +19,12 @@ public class LoginBean {
     private String email;
     private String clave;
 
-    // Inyectamos el bean de sesión para guardar al usuario si el login es exitoso
     @ManagedProperty("#{sesionBean}")
     private SesionBean sesionBean;
 
     private ServicioUsuarios servicioUsuarios;
 
     public LoginBean() {
-        // Obtenemos el servicio usando tu Factoría
         this.servicioUsuarios = FactoriaServicios.getServicio(ServicioUsuarios.class);
     }
 
@@ -34,10 +32,8 @@ public class LoginBean {
         try {
             Usuario usuario = servicioUsuarios.login(email, clave);
             
-            // Login correcto: guardamos en sesión
             sesionBean.setUsuarioLogueado(usuario);
             
-            // Navegación (asumiendo que tienes una pagina 'index' o 'home')
             return "/index?faces-redirect=true";
             
         } catch (ServicioException e) {

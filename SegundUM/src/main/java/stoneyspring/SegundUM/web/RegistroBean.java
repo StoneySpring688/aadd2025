@@ -22,7 +22,7 @@ public class RegistroBean implements Serializable {
     private String email;
     private String clave;
     private String telefono;
-    private Date fechaNacimientoDate; // PrimeFaces usa java.util.Date en el calendario
+    private Date fechaNacimientoDate;
 
     private ServicioUsuarios servicioUsuarios;
 
@@ -32,7 +32,6 @@ public class RegistroBean implements Serializable {
 
     public String registrar() {
         try {
-            // Conversión de Date (PrimeFaces) a LocalDate (Dominio)
             LocalDate fechaNacimiento = null;
             if (fechaNacimientoDate != null) {
                 fechaNacimiento = fechaNacimientoDate.toInstant()
@@ -42,7 +41,6 @@ public class RegistroBean implements Serializable {
 
             servicioUsuarios.altaUsuario(email, nombre, apellidos, clave, fechaNacimiento, telefono);
             
-            // Mensaje de éxito (se mantendrá gracias a Flash scope implícito en redirect si se configura)
             FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
             FacesContext.getCurrentInstance().addMessage(null, 
                 new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito", "Usuario registrado correctamente. Por favor inicie sesión."));

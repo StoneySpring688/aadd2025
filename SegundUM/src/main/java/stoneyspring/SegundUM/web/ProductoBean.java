@@ -24,13 +24,12 @@ import stoneyspring.SegundUM.servicio.productos.ServicioProductos;
 @ViewScoped
 public class ProductoBean implements Serializable {
 
-    // Coinciden con los argumentos de altaProducto
     private String titulo;
     private String descripcion;
     private BigDecimal precio;
     private EstadoProducto estado;
     private String categoriaIdSeleccionada;
-    private boolean envioDisponible; // Nuevo campo requerido por tu firma
+    private boolean envioDisponible;
 
     private List<Categoria> listaCategorias;
     private List<Producto> misProductos;
@@ -57,14 +56,13 @@ public class ProductoBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        // 1. Cargar categorías (código existente)
         try {
             this.listaCategorias = servicioCategorias.getCategoriasRaiz();
         } catch (ServicioException e) {
-            // Manejo de error
+        				FacesContext.getCurrentInstance().addMessage(null, 
+				new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se pudieron cargar las categorías"));
         }
 
-        // 2. NUEVO: Cargar mis productos
         try {
             if (sesionBean != null && sesionBean.getUsuarioLogueado() != null) {
                 String idUsuario = sesionBean.getUsuarioLogueado().getId();
@@ -80,8 +78,6 @@ public class ProductoBean implements Serializable {
         try {
             String vendedorId = sesionBean.getUsuarioLogueado().getId();
 
-            // FIRMA EXACTA QUE ME HAS DADO:
-            // altaProducto(titulo, descripcion, precio, estado, categoriaId, envioDisponible, vendedorId)
             servicioProductos.altaProducto(
                 titulo, 
                 descripcion, 
@@ -111,7 +107,6 @@ public class ProductoBean implements Serializable {
         try {
             String idUsuario = sesionBean.getUsuarioLogueado().getId();
 
-            // Llamamos al servicio pasando los datos modificados del objeto seleccionado
             servicioProductos.modificarProducto(
                 productoSeleccionado.getId(),
                 productoSeleccionado.getDescripcion(),
@@ -122,11 +117,7 @@ public class ProductoBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, 
                 new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito", "Producto actualizado."));
             
-            // Opcional: Recargar la lista para asegurar sincronización
             this.misProductos = servicioProductos.getProductosPorVendedor(idUsuario);
-
-            // Cerramos el diálogo desde el servidor (opcional, también se puede hacer con oncomplete en el xhtml)
-            // PrimeFaces.current().executeScript("PF('dlgEditar').hide();");
 
         } catch (ServicioException e) {
             FacesContext.getCurrentInstance().addMessage(null, 
@@ -137,8 +128,6 @@ public class ProductoBean implements Serializable {
     // ojo la busqueda por estado, devuelve ese estado o mejor, se puede alterar deesde El repositorioJPA de productos, llamando a un método distinto de esMejorOIgualQue durante el proceso de busqueda :P
     public void buscar() {
         try {
-            // Llamada al servicio con la firma exacta que tienes en ServicioProductosImpl
-            // buscarProductos(categoriaId, texto, estadoMinimo, precioMaximo)
             this.productosEncontrados = servicioProductos.buscarProductos(
                 busquedaCategoriaId, 
                 busquedaTexto, 
@@ -154,7 +143,6 @@ public class ProductoBean implements Serializable {
         } catch (ServicioException e) {
             FacesContext.getCurrentInstance().addMessage(null, 
                 new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al realizar la búsqueda: " + e.getMessage()));
-            // Inicializamos la lista vacía para evitar errores en la vista
             this.productosEncontrados = new ArrayList<>();
         }
     }
