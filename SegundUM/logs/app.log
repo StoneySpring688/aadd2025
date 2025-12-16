@@ -14529,3 +14529,29 @@ Caused by: stoneyspring.SegundUM.repositorio.EntidadNoEncontrada: La entidad no 
 17:12:08.735 [qtp998458782-41] INFO  s.S.s.p.ServicioProductosImpl - Obteniendo categoría con ID: 111
 17:12:08.737 [qtp998458782-41] INFO  s.S.s.p.ServicioProductosImpl - Obteniendo vendedor con ID: 815571d9-fd1e-4eb7-aea0-bcca00f2d360
 17:12:43.444 [qtp998458782-41] INFO  s.S.s.c.ServicioCategoriasImpl - Recuperando categorías raíz
+17:21:12.165 [qtp998458782-75] INFO  s.S.s.p.ServicioProductosImpl - Buscando productos con filtros - Categoría ID: , Texto: , Estado mínimo: null, Precio máximo: null
+17:24:47.222 [main] INFO  o.j.w.environment.servletWeldServlet - WELD-ENV-001008: Initialize Weld using ServletContainerInitializer
+17:24:47.233 [main] INFO  org.jboss.weld.Version - WELD-000900: 3.1.9 (Final)
+17:24:47.381 [main] INFO  org.jboss.weld.Bootstrap - WELD-000101: Transactional services not available. Injection of @Inject UserTransaction not available. Transactional observers will be invoked synchronously.
+17:24:47.520 [main] INFO  o.j.weld.environment.servletJetty - WELD-ENV-001200: Jetty 7.2+ detected, CDI injection will be available in Servlets and Filters. Injection into Listeners should work on Jetty 9.1.1 and newer.
+17:24:48.924 [main] INFO  s.S.s.c.ServicioCategoriasImpl - La categoría Arte y ocio ya existe. No se cargará.
+17:24:48.929 [main] INFO  s.S.s.c.ServicioCategoriasImpl - La categoría Bebés y niños pequeños ya existe. No se cargará.
+17:24:48.939 [main] INFO  s.S.s.c.ServicioCategoriasImpl - La categoría Bricolaje ya existe. No se cargará.
+17:24:48.943 [main] INFO  s.S.s.c.ServicioCategoriasImpl - La categoría Cámaras y ópticas ya existe. No se cargará.
+17:24:48.953 [main] INFO  s.S.s.c.ServicioCategoriasImpl - La categoría Casa y jardín ya existe. No se cargará.
+17:24:48.958 [main] INFO  s.S.s.c.ServicioCategoriasImpl - La categoría Economía e industria ya existe. No se cargará.
+17:24:48.963 [main] INFO  s.S.s.c.ServicioCategoriasImpl - La categoría Electrónica ya existe. No se cargará.
+17:24:48.966 [main] INFO  s.S.s.c.ServicioCategoriasImpl - La categoría Elementos religiosos y ceremoniales ya existe. No se cargará.
+17:24:48.973 [main] INFO  s.S.s.c.ServicioCategoriasImpl - La categoría Equipamiento deportivo ya existe. No se cargará.
+17:24:48.977 [main] INFO  s.S.s.c.ServicioCategoriasImpl - La categoría Juegos y juguetes ya existe. No se cargará.
+17:24:48.981 [main] INFO  s.S.s.c.ServicioCategoriasImpl - La categoría Maletas y bolsos de viaje ya existe. No se cargará.
+17:24:48.985 [main] INFO  s.S.s.c.ServicioCategoriasImpl - La categoría Material de oficina ya existe. No se cargará.
+17:24:48.989 [main] INFO  s.S.s.c.ServicioCategoriasImpl - La categoría Mobiliario ya existe. No se cargará.
+17:24:48.992 [main] INFO  s.S.s.c.ServicioCategoriasImpl - La categoría Multimedia ya existe. No se cargará.
+17:24:48.996 [main] INFO  s.S.s.c.ServicioCategoriasImpl - La categoría Productos para mascotas y animales ya existe. No se cargará.
+17:24:49.000 [main] INFO  s.S.s.c.ServicioCategoriasImpl - La categoría Ropa y accesorios ya existe. No se cargará.
+17:24:49.006 [main] INFO  s.S.s.c.ServicioCategoriasImpl - La categoría Salud y belleza ya existe. No se cargará.
+17:24:49.009 [main] INFO  s.S.s.c.ServicioCategoriasImpl - La categoría Software ya existe. No se cargará.
+17:24:49.014 [main] INFO  s.S.s.c.ServicioCategoriasImpl - La categoría Vehículos y recambios ya existe. No se cargará.
+17:24:49.014 [main] INFO  s.SegundUM.web.InicializacionBean - === FIN CARGA: 19 cargados, 0 fallidos ===
+17:24:58.106 [qtp948315053-41] INFO  s.S.s.c.ServicioCategoriasImpl - Recuperando categorías raíz

@@ -58,21 +58,21 @@ public class ProductoBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        try {
-            this.listaCategorias = servicioCategorias.getCategoriasRaiz();
-        } catch (ServicioException e) {
-        				FacesContext.getCurrentInstance().addMessage(null, 
-				new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se pudieron cargar las categorías"));
-        }
-
-        try {
-            if (sesionBean != null && sesionBean.getUsuarioLogueado() != null) {
-                String idUsuario = sesionBean.getUsuarioLogueado().getId();
-                this.misProductos = servicioProductos.getProductosPorVendedor(idUsuario);
-            }
+    	try {
+            this.listaCategorias = servicioCategorias.getCategoriasRaiz(); //
         } catch (ServicioException e) {
             FacesContext.getCurrentInstance().addMessage(null, 
-                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se pudieron cargar tus productos"));
+               new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error cargando categorías"));
+        }
+
+        if (sesionBean != null && sesionBean.getUsuarioLogueado() != null) {
+            try {
+                String vendedorId = sesionBean.getUsuarioLogueado().getId(); //
+                this.misProductos = servicioProductos.getProductosPorVendedor(vendedorId); //
+            } catch (ServicioException e) {
+                FacesContext.getCurrentInstance().addMessage(null, 
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error cargando tus productos"));
+            }
         }
     }
 
