@@ -1,0 +1,142 @@
+17:43:55.369 [main] INFO  s.SegundUM.pruebas.AppJava - === CASOS DE USO DE USUARIO ===
+
+17:43:55.370 [main] INFO  s.SegundUM.pruebas.AppJava - 1. Registrando nuevo usuario...
+17:43:56.034 [main] WARN  s.S.s.usuarios.ServicioUsuariosImpl - Intento de alta con email ya registrado: juan.perez@email.com
+17:43:56.035 [main] ERROR s.SegundUM.controller.Controller - Error al registrar el usuario con email: juan.perez@email.com
+stoneyspring.SegundUM.servicio.ServicioException: El email juan.perez@email.com ya está registrado en el sistema
+	at stoneyspring.SegundUM.servicio.usuarios.ServicioUsuariosImpl.altaUsuario(ServicioUsuariosImpl.java:32)
+	at stoneyspring.SegundUM.controller.Controller.registrarUsuario(Controller.java:85)
+	at stoneyspring.SegundUM.pruebas.AppJava.main(AppJava.java:26)
+17:43:56.035 [main] INFO  s.SegundUM.pruebas.AppJava - Usuario registrado con ID: null
+
+17:43:56.035 [main] INFO  s.SegundUM.pruebas.AppJava - 2. Modificando datos del usuario...
+17:43:56.035 [main] WARN  s.SegundUM.controller.Controller - Intento de modificación de usuario con ID vacío
+17:43:56.035 [main] WARN  s.SegundUM.pruebas.AppJava - No se pudo modificar los datos del usuario
+
+17:43:56.035 [main] INFO  s.SegundUM.pruebas.AppJava - === CASOS DE USO DE ADMINISTRADOR ===
+
+17:43:56.035 [main] INFO  s.SegundUM.pruebas.AppJava - 8. Cargando categorías desde XML...
+17:43:56.164 [main] INFO  s.S.s.c.ServicioCategoriasImpl - La categoría Electrónica ya existe. No se cargará.
+17:43:56.164 [main] INFO  s.SegundUM.pruebas.AppJava - Categorías cargadas
+
+17:43:56.164 [main] INFO  s.S.s.c.ServicioCategoriasImpl - Recuperando categorías raíz
+17:43:56.167 [main] INFO  s.SegundUM.pruebas.AppJava - Usando categoría: Electrónica
+
+17:43:56.167 [main] INFO  s.SegundUM.pruebas.AppJava - 9. Modificando descripción de categoría...
+17:43:56.173 [main] INFO  s.SegundUM.pruebas.AppJava - Descripción de categoría actualizada
+
+17:43:56.174 [main] INFO  s.SegundUM.pruebas.AppJava - === CONTINUANDO CON CASOS DE USO DE USUARIO ===
+
+17:43:56.174 [main] INFO  s.SegundUM.pruebas.AppJava - 3. Dando de alta un producto...
+17:43:56.174 [main] WARN  s.SegundUM.controller.Controller - Intento de alta de producto sin vendedor
+17:43:56.174 [main] INFO  s.SegundUM.pruebas.AppJava - Producto dado de alta con ID: null
+
+17:43:56.174 [main] INFO  s.SegundUM.pruebas.AppJava - 4. Modificando precio y descripción del producto...
+17:43:56.174 [main] WARN  s.SegundUM.controller.Controller - Intento de modificación de producto con ID vacío
+17:43:56.174 [main] INFO  s.SegundUM.pruebas.AppJava - Producto modificado
+
+17:43:56.174 [main] INFO  s.SegundUM.pruebas.AppJava - 5. Asociando lugar de recogida al producto...
+17:43:56.174 [main] WARN  s.SegundUM.controller.Controller - Intento de asociar lugar de recogida con ID de producto vacío
+17:43:56.174 [main] INFO  s.SegundUM.pruebas.AppJava - Lugar de recogida asociado
+
+17:43:56.174 [main] WARN  s.SegundUM.controller.Controller - Intento de registrar visualización con ID de producto vacío
+17:43:56.174 [main] WARN  s.SegundUM.controller.Controller - Intento de registrar visualización con ID de producto vacío
+17:43:56.174 [main] WARN  s.SegundUM.controller.Controller - Intento de registrar visualización con ID de producto vacío
+17:43:56.174 [main] WARN  s.SegundUM.controller.Controller - Intento de registrar visualización con ID de producto vacío
+17:43:56.174 [main] WARN  s.SegundUM.controller.Controller - Intento de registrar visualización con ID de producto vacío
+17:43:56.174 [main] INFO  s.SegundUM.pruebas.AppJava - 5 visualizaciones registradas
+
+17:43:56.174 [main] INFO  s.SegundUM.pruebas.AppJava - 6. Obteniendo resumen mensual de productos...
+17:43:56.189 [main] INFO  s.SegundUM.pruebas.AppJava - Resumen del mes 11/2025:
+17:43:56.189 [main] INFO  s.SegundUM.pruebas.AppJava -   - iPhone 13 Pro | Precio: 749.99€ | Visualizaciones: 5
+17:43:56.190 [main] INFO  s.SegundUM.pruebas.AppJava - 7. Buscando productos con filtros...
+17:43:56.190 [main] INFO  s.SegundUM.pruebas.AppJava - 	a) Búsqueda por texto 'iPhone':
+17:43:56.190 [main] INFO  s.S.s.p.ServicioProductosImpl - Buscando productos con filtros - Categoría ID: null, Texto: iPhone, Estado mínimo: null, Precio máximo: null
+17:43:56.195 [main] INFO  s.SegundUM.pruebas.AppJava - 	Encontrados: 2 productos
+
+17:43:56.196 [main] INFO  s.SegundUM.pruebas.AppJava - 	b) Búsqueda por categoría y precio máximo 800€:
+17:43:56.196 [main] INFO  s.S.s.p.ServicioProductosImpl - Buscando productos con filtros - Categoría ID: 222, Texto: null, Estado mínimo: null, Precio máximo: 800.00
+17:43:56.414 [main] INFO  s.SegundUM.pruebas.AppJava - 	Encontrados: 2 productos
+
+17:43:56.414 [main] INFO  s.SegundUM.pruebas.AppJava - 	c) Búsqueda por estado mínimo BUEN_ESTADO:
+17:43:56.414 [main] INFO  s.S.s.p.ServicioProductosImpl - Buscando productos con filtros - Categoría ID: null, Texto: null, Estado mínimo: BUEN_ESTADO, Precio máximo: null
+17:43:56.418 [main] INFO  s.SegundUM.pruebas.AppJava - 	Encontrados: 2 productos
+
+17:43:56.418 [main] INFO  s.SegundUM.pruebas.AppJava - 	d) Búsqueda combinada (categoría, texto, estado y precio):
+17:43:56.418 [main] INFO  s.S.s.p.ServicioProductosImpl - Buscando productos con filtros - Categoría ID: 222, Texto: iPhone, Estado mínimo: COMO_NUEVO, Precio máximo: 1000.00
+17:43:56.563 [main] INFO  s.SegundUM.pruebas.AppJava - 	Encontrados: 2 productos
+17:43:56.563 [main] INFO  s.SegundUM.pruebas.AppJava - 		• iPhone 13 Pro - 749.99€ - Estado: COMO_NUEVO - Vendedor : juan.perez@email.com
+17:43:56.563 [main] INFO  s.SegundUM.pruebas.AppJava - 		• iPhone 13 Pro - 749.99€ - Estado: COMO_NUEVO - Vendedor : jua.perez@email.com
+17:43:56.563 [main] INFO  s.SegundUM.pruebas.AppJava - 
+=== TODOS LOS CASOS DE USO EJECUTADOS CORRECTAMENTE ===
+17:44:47.831 [main] INFO  s.SegundUM.pruebas.AppJava - === CASOS DE USO DE USUARIO ===
+
+17:44:47.832 [main] INFO  s.SegundUM.pruebas.AppJava - 1. Registrando nuevo usuario...
+17:44:48.516 [main] WARN  s.S.s.usuarios.ServicioUsuariosImpl - Intento de alta con email ya registrado: juan.perez@email.com
+17:44:48.517 [main] ERROR s.SegundUM.controller.Controller - Error al registrar el usuario con email: juan.perez@email.com
+stoneyspring.SegundUM.servicio.ServicioException: El email juan.perez@email.com ya está registrado en el sistema
+	at stoneyspring.SegundUM.servicio.usuarios.ServicioUsuariosImpl.altaUsuario(ServicioUsuariosImpl.java:32)
+	at stoneyspring.SegundUM.controller.Controller.registrarUsuario(Controller.java:85)
+	at stoneyspring.SegundUM.pruebas.AppJava.main(AppJava.java:26)
+17:44:48.517 [main] INFO  s.SegundUM.pruebas.AppJava - Usuario registrado con ID: null
+
+17:44:48.517 [main] INFO  s.SegundUM.pruebas.AppJava - 2. Modificando datos del usuario...
+17:44:48.517 [main] WARN  s.SegundUM.controller.Controller - Intento de modificación de usuario con ID vacío
+17:44:48.517 [main] WARN  s.SegundUM.pruebas.AppJava - No se pudo modificar los datos del usuario
+
+17:44:48.517 [main] INFO  s.SegundUM.pruebas.AppJava - === CASOS DE USO DE ADMINISTRADOR ===
+
+17:44:48.517 [main] INFO  s.SegundUM.pruebas.AppJava - 8. Cargando categorías desde XML...
+17:44:48.649 [main] INFO  s.S.s.c.ServicioCategoriasImpl - La categoría Electrónica ya existe. No se cargará.
+17:44:48.649 [main] INFO  s.SegundUM.pruebas.AppJava - Categorías cargadas
+
+17:44:48.649 [main] INFO  s.S.s.c.ServicioCategoriasImpl - Recuperando categorías raíz
+17:44:48.651 [main] INFO  s.SegundUM.pruebas.AppJava - Usando categoría: Electrónica
+
+17:44:48.651 [main] INFO  s.SegundUM.pruebas.AppJava - 9. Modificando descripción de categoría...
+17:44:48.656 [main] INFO  s.SegundUM.pruebas.AppJava - Descripción de categoría actualizada
+
+17:44:48.656 [main] INFO  s.SegundUM.pruebas.AppJava - === CONTINUANDO CON CASOS DE USO DE USUARIO ===
+
+17:44:48.657 [main] INFO  s.SegundUM.pruebas.AppJava - 3. Dando de alta un producto...
+17:44:48.657 [main] WARN  s.SegundUM.controller.Controller - Intento de alta de producto sin vendedor
+17:44:48.657 [main] INFO  s.SegundUM.pruebas.AppJava - Producto dado de alta con ID: null
+
+17:44:48.657 [main] INFO  s.SegundUM.pruebas.AppJava - 4. Modificando precio y descripción del producto...
+17:44:48.657 [main] WARN  s.SegundUM.controller.Controller - Intento de modificación de producto con ID vacío
+17:44:48.657 [main] INFO  s.SegundUM.pruebas.AppJava - Producto modificado
+
+17:44:48.657 [main] INFO  s.SegundUM.pruebas.AppJava - 5. Asociando lugar de recogida al producto...
+17:44:48.657 [main] WARN  s.SegundUM.controller.Controller - Intento de asociar lugar de recogida con ID de producto vacío
+17:44:48.657 [main] INFO  s.SegundUM.pruebas.AppJava - Lugar de recogida asociado
+
+17:44:48.657 [main] WARN  s.SegundUM.controller.Controller - Intento de registrar visualización con ID de producto vacío
+17:44:48.657 [main] WARN  s.SegundUM.controller.Controller - Intento de registrar visualización con ID de producto vacío
+17:44:48.657 [main] WARN  s.SegundUM.controller.Controller - Intento de registrar visualización con ID de producto vacío
+17:44:48.657 [main] WARN  s.SegundUM.controller.Controller - Intento de registrar visualización con ID de producto vacío
+17:44:48.657 [main] WARN  s.SegundUM.controller.Controller - Intento de registrar visualización con ID de producto vacío
+17:44:48.657 [main] INFO  s.SegundUM.pruebas.AppJava - 5 visualizaciones registradas
+
+17:44:48.657 [main] INFO  s.SegundUM.pruebas.AppJava - 6. Obteniendo resumen mensual de productos...
+17:44:48.670 [main] INFO  s.SegundUM.pruebas.AppJava - Resumen del mes 11/2025:
+17:44:48.670 [main] INFO  s.SegundUM.pruebas.AppJava -   - iPhone 13 Pro | Precio: 749.99€ | Visualizaciones: 5
+17:44:48.670 [main] INFO  s.SegundUM.pruebas.AppJava - 7. Buscando productos con filtros...
+17:44:48.671 [main] INFO  s.SegundUM.pruebas.AppJava - 	a) Búsqueda por texto 'iPhone':
+17:44:48.671 [main] INFO  s.S.s.p.ServicioProductosImpl - Buscando productos con filtros - Categoría ID: null, Texto: iPhone, Estado mínimo: null, Precio máximo: null
+17:44:48.676 [main] INFO  s.SegundUM.pruebas.AppJava - 	Encontrados: 2 productos
+
+17:44:48.676 [main] INFO  s.SegundUM.pruebas.AppJava - 	b) Búsqueda por categoría y precio máximo 800€:
+17:44:48.676 [main] INFO  s.S.s.p.ServicioProductosImpl - Buscando productos con filtros - Categoría ID: 222, Texto: null, Estado mínimo: null, Precio máximo: 800.00
+17:44:48.885 [main] INFO  s.SegundUM.pruebas.AppJava - 	Encontrados: 2 productos
+
+17:44:48.885 [main] INFO  s.SegundUM.pruebas.AppJava - 	c) Búsqueda por estado mínimo BUEN_ESTADO:
+17:44:48.885 [main] INFO  s.S.s.p.ServicioProductosImpl - Buscando productos con filtros - Categoría ID: null, Texto: null, Estado mínimo: BUEN_ESTADO, Precio máximo: null
+17:44:48.888 [main] INFO  s.SegundUM.pruebas.AppJava - 	Encontrados: 2 productos
+
+17:44:48.888 [main] INFO  s.SegundUM.pruebas.AppJava - 	d) Búsqueda combinada (categoría, texto, estado y precio):
+17:44:48.888 [main] INFO  s.S.s.p.ServicioProductosImpl - Buscando productos con filtros - Categoría ID: 222, Texto: iPhone, Estado mínimo: COMO_NUEVO, Precio máximo: 1000.00
+17:44:49.027 [main] INFO  s.SegundUM.pruebas.AppJava - 	Encontrados: 2 productos
+17:44:49.027 [main] INFO  s.SegundUM.pruebas.AppJava - 		• iPhone 13 Pro - 749.99€ - Estado: COMO_NUEVO - Vendedor : juan.perez@email.com
+17:44:49.027 [main] INFO  s.SegundUM.pruebas.AppJava - 		• iPhone 13 Pro - 749.99€ - Estado: COMO_NUEVO - Vendedor : jua.perez@email.com
+17:44:49.028 [main] INFO  s.SegundUM.pruebas.AppJava - 
+=== TODOS LOS CASOS DE USO EJECUTADOS CORRECTAMENTE ===

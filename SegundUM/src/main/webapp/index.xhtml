@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+    <title>SegundUM - Principal</title>
+</h:head>
+
+<h:body>
+    <h:form>
+        <p:menubar>
+            <p:menuitem value="SegundUM" url="/index.xhtml" style="font-weight:bold"/>
+            
+            <f:facet name="options">
+                <span style="margin-right:15px">Hola, <b>#{sesionBean.usuarioLogueado.nombre}</b></span>
+                <p:commandButton value="Cerrar Sesión" action="#{sesionBean.cerrarSesion}" 
+                                 icon="pi pi-power-off" styleClass="ui-button-danger ui-button-flat"/>
+            </f:facet>
+        </p:menubar>
+    </h:form>
+
+    <div style="padding: 20px;">
+        <p:panel header="Panel de Usuario">
+            <p>Bienvenido a la aplicación. Aquí podrás gestionar tus productos.</p>
+            
+            <h:panelGrid columns="3" style="margin-top:20px" cellpadding="10">
+                <p:card style="width: 200px; text-align: center">
+                    <i class="pi pi-shopping-bag" style="font-size: 2rem; color: #2196F3"></i>
+                    <h4>Comprar</h4>
+                </p:card>
+                
+                <p:card style="width: 200px; text-align: center">
+                    <i class="pi pi-tag" style="font-size: 2rem; color: #4CAF50"></i>
+                    <h4>Vender</h4>
+                </p:card>
+                
+                <p:card style="width: 200px; text-align: center">
+                    <i class="pi pi-user" style="font-size: 2rem; color: #FF9800"></i>
+                    <h4>Mi Perfil</h4>
+                </p:card>
+            </h:panelGrid>
+        </p:panel>
+    </div>
+</h:body>
+</html>

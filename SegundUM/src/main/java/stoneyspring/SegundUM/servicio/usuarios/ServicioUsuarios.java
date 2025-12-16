@@ -22,4 +22,11 @@ public interface ServicioUsuarios {
      */
     void modificarUsuario(String usuarioId, String nombre, String apellidos, String clave,
                          LocalDate fechaNacimiento, String telefono) throws ServicioException;
+    
+    /**
+     * Verifica las credenciales del usuario.
+     * @return El objeto Usuario si las credenciales son correctas.
+     * @throws ServicioException Si el usuario no existe o la clave es incorrecta.
+     */
+    Usuario login(String email, String clave) throws ServicioException;
 }

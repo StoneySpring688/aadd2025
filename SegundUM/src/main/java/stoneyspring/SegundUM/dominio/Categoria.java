@@ -27,6 +27,7 @@ public class Categoria implements Identificable {
 	@XmlElement
 	private String descripcion;
 
+	@Lob
 	@XmlAttribute
 	private String ruta;
 

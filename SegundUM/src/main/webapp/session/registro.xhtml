@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+    <title>SegundUM - Registro</title>
+</h:head>
+
+<h:body>
+    <div style="display: flex; justify-content: center; margin-top: 50px;">
+        <h:form>
+            <p:panel header="Registro de Nuevo Usuario" style="width: 500px;">
+                
+                <p:messages id="msgs" autoUpdate="true" closable="true" />
+
+                <h:panelGrid columns="2" cellpadding="5" style="width: 100%">
+                    
+                    <p:outputLabel for="nombre" value="Nombre:" />
+                    <p:inputText id="nombre" value="#{registroBean.nombre}" required="true" 
+                                 requiredMessage="Nombre requerido"/>
+
+                    <p:outputLabel for="apellidos" value="Apellidos:" />
+                    <p:inputText id="apellidos" value="#{registroBean.apellidos}" required="true" 
+                                 requiredMessage="Apellidos requeridos"/>
+
+                    <p:outputLabel for="email" value="Email:" />
+                    <p:inputText id="email" value="#{registroBean.email}" required="true" 
+                                 validatorMessage="Formato de email inválido">
+                        <f:validateRegex pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" />
+                    </p:inputText>
+
+                    <p:outputLabel for="clave" value="Contraseña:" />
+                    <p:password id="clave" value="#{registroBean.clave}" required="true" feedback="true"
+                                promptLabel="Introduzca contraseña" weakLabel="Débil" 
+                                goodLabel="Buena" strongLabel="Fuerte"/>
+
+                    <p:outputLabel for="fecha" value="Fecha Nacimiento:" />
+                    <p:calendar id="fecha" value="#{registroBean.fechaNacimientoDate}" required="true" 
+                                pattern="dd/MM/yyyy" navigator="true" yearRange="c-100:c" 
+                                requiredMessage="Fecha requerida"/>
+
+                    <p:outputLabel for="telefono" value="Teléfono:" />
+                    <p:inputText id="telefono" value="#{registroBean.telefono}" />
+
+                </h:panelGrid>
+
+                <f:facet name="footer">
+                    <p:commandButton value="Crear Cuenta" action="#{registroBean.registrar}" 
+                                     update="msgs" icon="pi pi-check" />
+                    
+                    <p:button value="Volver al Login" outcome="login" icon="pi pi-arrow-left" 
+                              styleClass="ui-button-flat" style="margin-left: 10px;"/>
+                </f:facet>
+            </p:panel>
+        </h:form>
+    </div>
+</h:body>
+</html>

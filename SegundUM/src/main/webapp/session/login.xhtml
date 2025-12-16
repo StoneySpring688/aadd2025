@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+    <title>SegundUM - Login</title>
+</h:head>
+
+<h:body>
+    <div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+        <h:form>
+            <p:panel header="Acceso a SegundUM" style="width: 400px;">
+                
+                <p:messages id="msgs" autoUpdate="true" closable="true" />
+
+                <h:panelGrid columns="2" cellpadding="5" style="width: 100%">
+                    
+                    <p:outputLabel for="email" value="Email:" />
+                    <p:inputText id="email" value="#{loginBean.email}" required="true" 
+                                 requiredMessage="El email es obligatorio" style="width: 100%"/>
+
+                    <p:outputLabel for="clave" value="Contraseña:" />
+                    <p:password id="clave" value="#{loginBean.clave}" required="true" 
+                                requiredMessage="La contraseña es obligatoria" style="width: 100%"/>
+                                
+                </h:panelGrid>
+
+                <f:facet name="footer">
+                    <p:commandButton value="Iniciar Sesión" action="#{loginBean.entrar}" 
+                                     update="msgs" icon="pi pi-sign-in" style="margin-right: 10px;"/>
+                    
+                    <p:button value="Registrarse" outcome="registro" icon="pi pi-user-plus" 
+                              styleClass="ui-button-secondary"/>
+                </f:facet>
+            </p:panel>
+        </h:form>
+    </div>
+</h:body>
+</html>
