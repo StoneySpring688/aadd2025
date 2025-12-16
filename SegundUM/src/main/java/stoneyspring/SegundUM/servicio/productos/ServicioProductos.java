@@ -49,4 +49,9 @@ public interface ServicioProductos {
      * Buscar productos con los criterios opcionales.
      */
     List<Producto> buscarProductos(String categoriaId, String texto, EstadoProducto estadoMinimo, BigDecimal precioMaximo) throws ServicioException;
+    
+    /**
+     * Recupera los productos publicados por un vendedor específico.
+     */
+    List<Producto> getProductosPorVendedor(String vendedorId) throws ServicioException;
 }

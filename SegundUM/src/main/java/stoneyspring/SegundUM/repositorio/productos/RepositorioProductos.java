@@ -45,4 +45,6 @@ public interface RepositorioProductos extends RepositorioString<Producto> {
      * Obtiene productos publicados en un rango de fechas.
      */
     List<Producto> getProductosPorFechas(LocalDateTime inicio, LocalDateTime fin) throws RepositorioException;
+    
+    List<Producto> getByVendedor(String vendedorId) throws RepositorioException;
 }

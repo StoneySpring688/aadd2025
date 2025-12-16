@@ -15,3 +15,28 @@
 12:28:35.335 [main] INFO  org.jboss.weld.Version - WELD-000900: 3.1.9 (Final)
 12:28:35.504 [main] INFO  org.jboss.weld.Bootstrap - WELD-000101: Transactional services not available. Injection of @Inject UserTransaction not available. Transactional observers will be invoked synchronously.
 12:28:35.639 [main] INFO  o.j.weld.environment.servletJetty - WELD-ENV-001200: Jetty 7.2+ detected, CDI injection will be available in Servlets and Filters. Injection into Listeners should work on Jetty 9.1.1 and newer.
+14:49:02.346 [main] INFO  o.j.w.environment.servletWeldServlet - WELD-ENV-001008: Initialize Weld using ServletContainerInitializer
+14:49:02.359 [main] INFO  org.jboss.weld.Version - WELD-000900: 3.1.9 (Final)
+14:49:02.501 [main] INFO  org.jboss.weld.Bootstrap - WELD-000101: Transactional services not available. Injection of @Inject UserTransaction not available. Transactional observers will be invoked synchronously.
+14:49:02.640 [main] INFO  o.j.weld.environment.servletJetty - WELD-ENV-001200: Jetty 7.2+ detected, CDI injection will be available in Servlets and Filters. Injection into Listeners should work on Jetty 9.1.1 and newer.
+14:50:18.607 [main] INFO  o.j.w.environment.servletWeldServlet - WELD-ENV-001008: Initialize Weld using ServletContainerInitializer
+14:50:18.619 [main] INFO  org.jboss.weld.Version - WELD-000900: 3.1.9 (Final)
+14:50:18.787 [main] INFO  org.jboss.weld.Bootstrap - WELD-000101: Transactional services not available. Injection of @Inject UserTransaction not available. Transactional observers will be invoked synchronously.
+14:50:18.920 [main] INFO  o.j.weld.environment.servletJetty - WELD-ENV-001200: Jetty 7.2+ detected, CDI injection will be available in Servlets and Filters. Injection into Listeners should work on Jetty 9.1.1 and newer.
+14:50:38.345 [qtp998458782-45] INFO  s.S.s.c.ServicioCategoriasImpl - Recuperando categorías raíz
+14:51:11.041 [qtp998458782-45] INFO  s.S.s.p.ServicioProductosImpl - Obteniendo categoría con ID: 222
+14:51:11.045 [qtp998458782-45] INFO  s.S.s.p.ServicioProductosImpl - Obteniendo vendedor con ID: 6e4dc1b9-4a22-459d-a0c1-dbeb811ae946
+14:51:40.857 [qtp998458782-45] INFO  s.S.s.c.ServicioCategoriasImpl - Recuperando categorías raíz
+15:05:36.139 [main] INFO  o.j.w.environment.servletWeldServlet - WELD-ENV-001008: Initialize Weld using ServletContainerInitializer
+15:05:36.151 [main] INFO  org.jboss.weld.Version - WELD-000900: 3.1.9 (Final)
+15:05:36.302 [main] INFO  org.jboss.weld.Bootstrap - WELD-000101: Transactional services not available. Injection of @Inject UserTransaction not available. Transactional observers will be invoked synchronously.
+15:05:36.448 [main] INFO  o.j.weld.environment.servletJetty - WELD-ENV-001200: Jetty 7.2+ detected, CDI injection will be available in Servlets and Filters. Injection into Listeners should work on Jetty 9.1.1 and newer.
+15:06:11.501 [qtp948315053-47] INFO  s.S.s.c.ServicioCategoriasImpl - Recuperando categorías raíz
+15:06:24.418 [qtp948315053-47] INFO  s.S.s.c.ServicioCategoriasImpl - Recuperando categorías raíz
+15:06:28.038 [qtp948315053-36] INFO  s.S.s.c.ServicioCategoriasImpl - Recuperando categorías raíz
+15:08:27.039 [qtp948315053-42] INFO  s.S.s.c.ServicioCategoriasImpl - Recuperando categorías raíz
+15:08:54.688 [qtp948315053-47] INFO  s.S.s.p.ServicioProductosImpl - Obteniendo categoría con ID: cat-test-004
+15:08:54.691 [qtp948315053-47] INFO  s.S.s.p.ServicioProductosImpl - Obteniendo vendedor con ID: 6e4dc1b9-4a22-459d-a0c1-dbeb811ae946
+15:08:54.733 [qtp948315053-36] INFO  s.S.s.c.ServicioCategoriasImpl - Recuperando categorías raíz
+15:09:01.355 [qtp948315053-47] INFO  s.S.s.c.ServicioCategoriasImpl - Recuperando categorías raíz
+15:09:09.058 [qtp948315053-36] INFO  s.S.s.c.ServicioCategoriasImpl - Recuperando categorías raíz

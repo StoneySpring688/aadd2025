@@ -5,14 +5,13 @@
       xmlns:f="http://java.sun.com/jsf/core">
 
 <h:head>
-    <title>SegundUM - Principal</title>
+    <title>SegundUM - Mis Productos</title>
 </h:head>
 
 <h:body>
     <h:form>
         <p:menubar>
             <p:menuitem value="SegundUM" url="/index.xhtml" style="font-weight:bold"/>
-            
             <f:facet name="options">
                 <span style="margin-right:15px">Hola, <b>#{sesionBean.usuarioLogueado.nombre}</b></span>
                 <p:commandButton value="Cerrar Sesión" action="#{sesionBean.cerrarSesion}" 
@@ -22,25 +21,54 @@
     </h:form>
 
     <div style="padding: 20px;">
-        <p:panel header="Panel de Usuario">
-            <p>Bienvenido a la aplicación. Aquí podrás gestionar tus productos.</p>
+        
+        <div style="margin-bottom: 20px; text-align: right;">
+            <p:button value="Vender nuevo producto" outcome="/productos/crearProducto" 
+                      icon="pi pi-plus" styleClass="ui-button-success"/>
+        </div>
+
+        <p:panel header="Mis Productos en Venta">
             
-            <h:panelGrid columns="3" style="margin-top:20px" cellpadding="10">
-                <p:card style="width: 200px; text-align: center">
-                    <i class="pi pi-shopping-bag" style="font-size: 2rem; color: #2196F3"></i>
-                    <h4>Comprar</h4>
-                </p:card>
-                
-                <p:card style="width: 200px; text-align: center">
-                    <i class="pi pi-tag" style="font-size: 2rem; color: #4CAF50"></i>
-                    <h4>Vender</h4>
-                </p:card>
-                
-                <p:card style="width: 200px; text-align: center">
-                    <i class="pi pi-user" style="font-size: 2rem; color: #FF9800"></i>
-                    <h4>Mi Perfil</h4>
-                </p:card>
-            </h:panelGrid>
+            <h:outputText value="Aún no tienes productos a la venta." 
+                          rendered="#{empty productoBean.misProductos}" />
+
+            <p:dataTable var="prod" value="#{productoBean.misProductos}" 
+                         rendered="#{not empty productoBean.misProductos}"
+                         paginator="true" rows="5" stripedRows="true">
+
+                <p:column headerText="Imagen" style="width:100px; text-align:center">
+                     <i class="pi pi-image" style="font-size: 2rem; color: gray;"></i>
+                </p:column>
+
+                <p:column headerText="Título" sortBy="#{prod.titulo}">
+                    <h:outputText value="#{prod.titulo}" style="font-weight: bold"/>
+                </p:column>
+
+                <p:column headerText="Categoría" sortBy="#{prod.categoria.nombre}">
+                    <h:outputText value="#{prod.categoria.nombre}" />
+                </p:column>
+
+                <p:column headerText="Precio" sortBy="#{prod.precio}">
+                    <h:outputText value="#{prod.precio}">
+                        <f:convertNumber type="currency" currencySymbol="€" />
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Estado">
+                    <h:outputText value="#{prod.estado}" />
+                </p:column>
+
+                <p:column headerText="Fecha" sortBy="#{prod.fechaPublicacion}">
+                    <h:outputText value="#{prod.fechaPublicacion}">
+                        <f:convertDateTime type="localDate" pattern="dd/MM/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Vistas" sortBy="#{prod.visualizaciones}" style="text-align: center; width: 80px">
+                    <p:badge value="#{prod.visualizaciones}" severity="info" />
+                </p:column>
+
+            </p:dataTable>
         </p:panel>
     </div>
 </h:body>

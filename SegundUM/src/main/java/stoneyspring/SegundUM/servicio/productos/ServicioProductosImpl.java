@@ -151,4 +151,14 @@ public class ServicioProductosImpl implements ServicioProductos {
             throw new ServicioException("Error al obtener historial del mes", e);
         }
 	}
+	
+	@Override
+    public List<Producto> getProductosPorVendedor(String vendedorId) throws ServicioException {
+        try {
+            return repositorioProductos.getByVendedor(vendedorId);
+        } catch (RepositorioException e) {
+            // logger.error("Error al recuperar productos del vendedor: " + vendedorId, e);
+            throw new ServicioException("Error al obtener los productos del vendedor", e);
+        }
+    }
 }

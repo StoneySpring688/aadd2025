@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+    <title>SegundUM - Vender Producto</title>
+</h:head>
+
+<h:body>
+    <h:form>
+        <p:menubar>
+            <p:menuitem value="Volver" outcome="/index" icon="pi pi-arrow-left"/>
+        </p:menubar>
+    </h:form>
+
+    <div style="display: flex; justify-content: center; margin-top: 30px;">
+        <h:form>
+            <p:panel header="Publicar nuevo anuncio" style="width: 600px;">
+                
+                <p:messages id="msgs" autoUpdate="true" closable="true" />
+
+                <h:panelGrid columns="2" cellpadding="7" style="width: 100%">
+                    
+                    <p:outputLabel for="titulo" value="Título:" />
+                    <p:inputText id="titulo" value="#{productoBean.titulo}" required="true" 
+                                 requiredMessage="El título es obligatorio" style="width: 100%"/>
+
+                    <p:outputLabel for="categoria" value="Categoría:" />
+                    <p:selectOneMenu id="categoria" value="#{productoBean.categoriaIdSeleccionada}" 
+                                     required="true" requiredMessage="Selecciona categoría" style="width: 100%">
+                        <f:selectItem itemLabel="Seleccione..." itemValue="" noSelectionOption="true"/>
+                        <f:selectItems value="#{productoBean.listaCategorias}" var="cat" 
+                                       itemLabel="#{cat.nombre}" itemValue="#{cat.id}"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="precio" value="Precio (€):" />
+                    <p:inputNumber id="precio" value="#{productoBean.precio}" symbol=" €" 
+                                   symbolPosition="s" decimalSeparator="," thousandSeparator="."
+                                   required="true" minValue="0"/>
+
+                    <p:outputLabel for="estado" value="Estado:" />
+                    <p:selectOneMenu id="estado" value="#{productoBean.estado}" required="true">
+                        <f:selectItem itemLabel="Seleccione..." itemValue="" noSelectionOption="true"/>
+                        <f:selectItems value="#{productoBean.estadosPosibles}" var="e" 
+                                       itemLabel="#{e}" itemValue="#{e}"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="envio" value="Envío disponible:" />
+                    <p:selectBooleanCheckbox id="envio" value="#{productoBean.envioDisponible}" 
+                                             itemLabel="Sí, hago envíos"/>
+
+                    <p:outputLabel for="desc" value="Descripción:" />
+                    <p:inputTextarea id="desc" value="#{productoBean.descripcion}" rows="5" 
+                                     style="width: 100%" counter="display" maxlength="250" 
+                                     counterTemplate="{0} caracteres restantes." autoResize="false" />
+                    <h:outputText />
+                    <h:outputText id="display" style="font-size: 0.8em; color: gray;" />
+
+                </h:panelGrid>
+
+                <f:facet name="footer">
+                    <p:commandButton value="Publicar" action="#{productoBean.crearProducto}" 
+                                     icon="pi pi-check" update="@form" style="margin-right: 10px"/>
+                </f:facet>
+            </p:panel>
+        </h:form>
+    </div>
+</h:body>
+</html>

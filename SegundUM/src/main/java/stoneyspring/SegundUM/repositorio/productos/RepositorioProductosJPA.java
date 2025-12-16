@@ -223,4 +223,23 @@ public class RepositorioProductosJPA extends RepositorioJPA<Producto> implements
             EntityManagerHelper.closeEntityManager();
         }
 	}
+	
+	@Override
+	public List<Producto> getByVendedor(String vendedorId) throws RepositorioException {
+	    EntityManager em = EntityManagerHelper.getEntityManager();
+	    try {
+	        // Usamos JOIN FETCH c para traer la categoría y evitar LazyException en la vista
+	        TypedQuery<Producto> query = em.createQuery(
+	            "SELECT p FROM Producto p JOIN FETCH p.categoria c WHERE p.vendedor.id = :vendedorId", 
+	            Producto.class
+	        );
+	        query.setParameter("vendedorId", vendedorId);
+	        
+	        return query.getResultList();
+	    } catch (Exception e) {
+	        throw new RepositorioException("Error al recuperar productos del vendedor " + vendedorId, e);
+	    } finally {
+	        EntityManagerHelper.closeEntityManager();
+	    }
+	}
 }
