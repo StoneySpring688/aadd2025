@@ -65,6 +65,16 @@ Para explorar el mercado global, pulse la opción **"Buscar Productos"** en la b
 * **Filtros:** Puede refinar su búsqueda por texto, categoría específica, estado de conservación mínimo y precio máximo.
 * **Resultados:** Pulse el botón **"Buscar"** para visualizar los artículos de otros vendedores que coincidan con sus criterios.
 
+**nota** : en la busqueda de productoes se podrá apreciar que el filtro por estado del producto es un threshold, lo que quiere decir que si buscas por COMO_NUEVO, mostrará también los que están marcados con NUEVO, esto se debe a que un usuario que busque productos por un determinado estado, también puede estar interesado en productos en mejor estado.
+
+Esto puede alterarse refactorizando el método `esMejorOIgualQue()` de la entidad del dominio *EstadoProducto*
+```java 
+public boolean esMejorOIgualQue(EstadoProducto otro) {
+        return this.nivel >= otro.nivel;
+    }
+```
+Para que la condición sea `nivel == otro.nivel`.
+
 ## 6. Ficha de Detalle
 
 Para consultar toda la información de un producto (ya sea propio o de una búsqueda):
