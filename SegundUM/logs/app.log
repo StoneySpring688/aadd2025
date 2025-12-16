@@ -55,3 +55,36 @@
 15:35:49.689 [main] INFO  org.jboss.weld.Bootstrap - WELD-000101: Transactional services not available. Injection of @Inject UserTransaction not available. Transactional observers will be invoked synchronously.
 15:35:49.843 [main] INFO  o.j.weld.environment.servletJetty - WELD-ENV-001200: Jetty 7.2+ detected, CDI injection will be available in Servlets and Filters. Injection into Listeners should work on Jetty 9.1.1 and newer.
 15:35:59.653 [qtp1739806152-42] INFO  s.S.s.c.ServicioCategoriasImpl - Recuperando categorías raíz
+15:44:30.156 [main] INFO  o.j.w.environment.servletWeldServlet - WELD-ENV-001008: Initialize Weld using ServletContainerInitializer
+15:44:30.170 [main] INFO  org.jboss.weld.Version - WELD-000900: 3.1.9 (Final)
+15:44:30.328 [main] INFO  org.jboss.weld.Bootstrap - WELD-000101: Transactional services not available. Injection of @Inject UserTransaction not available. Transactional observers will be invoked synchronously.
+15:44:30.492 [main] INFO  o.j.weld.environment.servletJetty - WELD-ENV-001200: Jetty 7.2+ detected, CDI injection will be available in Servlets and Filters. Injection into Listeners should work on Jetty 9.1.1 and newer.
+15:44:44.948 [qtp500985266-41] INFO  s.S.s.c.ServicioCategoriasImpl - Recuperando categorías raíz
+15:47:24.174 [main] INFO  o.j.w.environment.servletWeldServlet - WELD-ENV-001008: Initialize Weld using ServletContainerInitializer
+15:47:24.193 [main] INFO  org.jboss.weld.Version - WELD-000900: 3.1.9 (Final)
+15:47:24.374 [main] INFO  org.jboss.weld.Bootstrap - WELD-000101: Transactional services not available. Injection of @Inject UserTransaction not available. Transactional observers will be invoked synchronously.
+15:47:24.540 [main] INFO  o.j.weld.environment.servletJetty - WELD-ENV-001200: Jetty 7.2+ detected, CDI injection will be available in Servlets and Filters. Injection into Listeners should work on Jetty 9.1.1 and newer.
+15:47:38.093 [qtp1739806152-41] INFO  s.S.s.c.ServicioCategoriasImpl - Recuperando categorías raíz
+15:48:10.885 [main] INFO  o.j.w.environment.servletWeldServlet - WELD-ENV-001008: Initialize Weld using ServletContainerInitializer
+15:48:10.897 [main] INFO  org.jboss.weld.Version - WELD-000900: 3.1.9 (Final)
+15:48:11.078 [main] INFO  org.jboss.weld.Bootstrap - WELD-000101: Transactional services not available. Injection of @Inject UserTransaction not available. Transactional observers will be invoked synchronously.
+15:48:11.250 [main] INFO  o.j.weld.environment.servletJetty - WELD-ENV-001200: Jetty 7.2+ detected, CDI injection will be available in Servlets and Filters. Injection into Listeners should work on Jetty 9.1.1 and newer.
+15:48:21.323 [qtp998458782-42] INFO  s.S.s.c.ServicioCategoriasImpl - Recuperando categorías raíz
+15:48:22.825 [qtp998458782-38] INFO  s.S.s.c.ServicioCategoriasImpl - Recuperando categorías raíz
+15:48:31.401 [qtp998458782-42] INFO  s.S.s.p.ServicioProductosImpl - Buscando productos con filtros - Categoría ID: 222, Texto: , Estado mínimo: null, Precio máximo: null
+15:48:41.461 [qtp998458782-38] INFO  s.S.s.p.ServicioProductosImpl - Buscando productos con filtros - Categoría ID: cat-test-001, Texto: , Estado mínimo: null, Precio máximo: null
+15:48:45.581 [qtp998458782-42] INFO  s.S.s.p.ServicioProductosImpl - Buscando productos con filtros - Categoría ID: 222, Texto: , Estado mínimo: null, Precio máximo: null
+15:48:47.407 [qtp998458782-38] INFO  s.S.s.c.ServicioCategoriasImpl - Recuperando categorías raíz
+15:48:51.003 [qtp998458782-42] INFO  s.S.s.c.ServicioCategoriasImpl - Recuperando categorías raíz
+15:48:55.389 [qtp998458782-38] INFO  s.S.s.p.ServicioProductosImpl - Buscando productos con filtros - Categoría ID: , Texto: , Estado mínimo: COMO_NUEVO, Precio máximo: null
+15:49:07.540 [qtp998458782-38] INFO  s.S.s.p.ServicioProductosImpl - Buscando productos con filtros - Categoría ID: , Texto: , Estado mínimo: BUEN_ESTADO, Precio máximo: null
+15:49:16.129 [qtp998458782-42] INFO  s.S.s.c.ServicioCategoriasImpl - Recuperando categorías raíz
+15:49:17.282 [qtp998458782-38] INFO  s.S.s.c.ServicioCategoriasImpl - Recuperando categorías raíz
+15:50:10.230 [qtp998458782-37] INFO  s.S.s.p.ServicioProductosImpl - Buscando productos con filtros - Categoría ID: , Texto: , Estado mínimo: COMO_NUEVO, Precio máximo: null
+15:50:17.264 [qtp998458782-42] INFO  s.S.s.p.ServicioProductosImpl - Buscando productos con filtros - Categoría ID: , Texto: , Estado mínimo: ACEPTABLE, Precio máximo: null
+15:50:20.289 [qtp998458782-44] INFO  s.S.s.p.ServicioProductosImpl - Buscando productos con filtros - Categoría ID: , Texto: , Estado mínimo: ACEPTABLE, Precio máximo: null
+15:50:25.460 [qtp998458782-42] INFO  s.S.s.p.ServicioProductosImpl - Buscando productos con filtros - Categoría ID: , Texto: , Estado mínimo: PARA_PIEZAS_O_REPARAR, Precio máximo: null
+15:50:26.447 [qtp998458782-44] INFO  s.S.s.p.ServicioProductosImpl - Buscando productos con filtros - Categoría ID: , Texto: , Estado mínimo: PARA_PIEZAS_O_REPARAR, Precio máximo: null
+15:50:29.223 [qtp998458782-42] INFO  s.S.s.p.ServicioProductosImpl - Buscando productos con filtros - Categoría ID: , Texto: , Estado mínimo: NUEVO, Precio máximo: null
+15:50:31.667 [qtp998458782-44] INFO  s.S.s.p.ServicioProductosImpl - Buscando productos con filtros - Categoría ID: , Texto: , Estado mínimo: null, Precio máximo: null
+15:50:33.614 [qtp998458782-42] INFO  s.S.s.p.ServicioProductosImpl - Buscando productos con filtros - Categoría ID: , Texto: , Estado mínimo: NUEVO, Precio máximo: null

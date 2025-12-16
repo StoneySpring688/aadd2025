@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+    <title>SegundUM - Buscar Productos</title>
+</h:head>
+
+<h:body>
+    <h:form>
+        <p:menubar>
+            <p:menuitem value="SegundUM (Mis Productos)" url="/index.xhtml" icon="pi pi-home"/>
+            <p:menuitem value="Buscar en el Mercado" url="/productos/busqueda.xhtml" icon="pi pi-search" style="font-weight:bold; background-color: #e9ecef; border-radius: 5px;"/>
+            
+            <f:facet name="options">
+                <span style="margin-right: 15px">Hola, <b>#{sesionBean.usuarioLogueado.nombre}</b></span>
+                <p:commandButton value="Cerrar Sesión" action="#{sesionBean.cerrarSesion}" 
+                                 icon="pi pi-power-off" styleClass="ui-button-danger ui-button-flat"/>
+            </f:facet>
+        </p:menubar>
+    </h:form>
+
+    <div style="padding: 20px;">
+        
+        <h:form id="formBusqueda">
+            <p:messages id="msgs" showDetail="true" closable="true" >
+                 <p:autoUpdate />
+            </p:messages>
+
+            <p:panel header="Filtrar Productos" toggleable="true">
+                <div class="ui-fluid formgrid grid">
+                    <p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+                                 columnClasses="ui-grid-col-4, ui-grid-col-3, ui-grid-col-3, ui-grid-col-2">
+                        
+                        <h:panelGroup>
+                            <p:outputLabel for="txt" value="Descripción/Título:"/>
+                            <p:inputText id="txt" value="#{productoBean.busquedaTexto}" placeholder="Ej: Bicicleta..."/>
+                        </h:panelGroup>
+
+                        <h:panelGroup>
+                            <p:outputLabel for="cat" value="Categoría:"/>
+                            <p:selectOneMenu id="cat" value="#{productoBean.busquedaCategoriaId}">
+                                <f:selectItem itemLabel="Todas" itemValue="" />
+                                <f:selectItems value="#{productoBean.listaCategorias}" var="c" 
+                                               itemLabel="#{c.nombre}" itemValue="#{c.id}"/>
+                            </p:selectOneMenu>
+                        </h:panelGroup>
+
+                        <h:panelGroup>
+                            <p:outputLabel for="est" value="Estado Mínimo:"/>
+                            <p:selectOneMenu id="est" value="#{productoBean.busquedaEstado}">
+                                <f:selectItem itemLabel="Cualquiera" itemValue="" />
+                                <f:selectItems value="#{productoBean.estadosPosibles}" var="e" 
+                                               itemLabel="#{e}" itemValue="#{e}"/>
+                            </p:selectOneMenu>
+                        </h:panelGroup>
+
+                        <h:panelGroup>
+                            <p:outputLabel for="prc" value="Precio Máx:"/>
+                            <p:inputNumber id="prc" value="#{productoBean.busquedaPrecioMax}" 
+                                           symbol=" €" symbolPosition="s" decimalPlaces="0"/>
+                        </h:panelGroup>
+
+                    </p:panelGrid>
+
+                    <div style="margin-top: 15px; text-align: right;">
+                        <p:commandButton value="Buscar" action="#{productoBean.buscar}" 
+                                         update="tablaResultados" icon="pi pi-search" />
+                        
+                        <p:commandButton value="Limpiar" update="@form" process="@this"
+                                         styleClass="ui-button-secondary ui-button-flat"
+                                         style="margin-left: 10px">
+                             <p:resetInput target="formBusqueda" />
+                        </p:commandButton>
+                    </div>
+                </div>
+            </p:panel>
+
+            <p:separator />
+
+            <p:dataTable id="tablaResultados" var="prod" value="#{productoBean.productosEncontrados}"
+                         emptyMessage="No se han buscado productos o no hay coincidencias."
+                         paginator="true" rows="10" stripedRows="true">
+
+                <p:column headerText="Imagen" style="width:80px; text-align:center">
+                     <i class="pi pi-box" style="font-size: 1.5rem; color: #607D8B;"></i>
+                </p:column>
+
+                <p:column headerText="Título" sortBy="#{prod.titulo}">
+                    <h:outputText value="#{prod.titulo}" style="font-weight: bold"/>
+                </p:column>
+
+                <p:column headerText="Precio" sortBy="#{prod.precio}">
+                    <h:outputText value="#{prod.precio}" style="color: #2E7D32; font-weight: bold">
+                        <f:convertNumber type="currency" currencySymbol="€" />
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Estado">
+                    <p:tag value="#{prod.estado}" severity="#{prod.estado == 'NUEVO' ? 'success' : 'info'}" rounded="true"/>
+                </p:column>
+
+                <p:column headerText="Categoría" sortBy="#{prod.categoria.nombre}">
+                    <h:outputText value="#{prod.categoria.nombre}" />
+                </p:column>
+                
+                <p:column headerText="Vendedor">
+                    <h:outputText value="#{prod.vendedor.nombre}" style="font-style: italic; color: gray"/>
+                </p:column>
+
+            </p:dataTable>
+        </h:form>
+    </div>
+</h:body>
+</html>

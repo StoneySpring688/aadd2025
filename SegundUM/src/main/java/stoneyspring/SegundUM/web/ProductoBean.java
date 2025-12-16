@@ -2,6 +2,7 @@ package stoneyspring.SegundUM.web;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -40,6 +41,14 @@ public class ProductoBean implements Serializable {
     private ServicioProductos servicioProductos;
     private ServicioCategorias servicioCategorias;
     private Producto productoSeleccionado;
+    
+    // variables para la busqueda
+    private String busquedaTexto;
+    private String busquedaCategoriaId;
+    private EstadoProducto busquedaEstado;
+    private BigDecimal busquedaPrecioMax;
+    
+    private List<Producto> productosEncontrados;
 
     public ProductoBean() {
         this.servicioProductos = FactoriaServicios.getServicio(ServicioProductos.class);
@@ -124,6 +133,46 @@ public class ProductoBean implements Serializable {
                 new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
         }
     }
+    
+    // ojo la busqueda por estado, devuelve ese estado o mejor, se puede alterar deesde El repositorioJPA de productos, llamando a un método distinto de esMejorOIgualQue durante el proceso de busqueda :P
+    public void buscar() {
+        try {
+            // Llamada al servicio con la firma exacta que tienes en ServicioProductosImpl
+            // buscarProductos(categoriaId, texto, estadoMinimo, precioMaximo)
+            this.productosEncontrados = servicioProductos.buscarProductos(
+                busquedaCategoriaId, 
+                busquedaTexto, 
+                busquedaEstado, 
+                busquedaPrecioMax
+            );
+            
+            if (this.productosEncontrados.isEmpty()) {
+                 FacesContext.getCurrentInstance().addMessage(null, 
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "No se encontraron productos con esos criterios."));
+            }
+
+        } catch (ServicioException e) {
+            FacesContext.getCurrentInstance().addMessage(null, 
+                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al realizar la búsqueda: " + e.getMessage()));
+            // Inicializamos la lista vacía para evitar errores en la vista
+            this.productosEncontrados = new ArrayList<>();
+        }
+    }
+    
+    // getters y setters para la busqueda
+    public String getBusquedaTexto() { return busquedaTexto; }
+    public void setBusquedaTexto(String busquedaTexto) { this.busquedaTexto = busquedaTexto; }
+
+    public String getBusquedaCategoriaId() { return busquedaCategoriaId; }
+    public void setBusquedaCategoriaId(String busquedaCategoriaId) { this.busquedaCategoriaId = busquedaCategoriaId; }
+
+    public EstadoProducto getBusquedaEstado() { return busquedaEstado; }
+    public void setBusquedaEstado(EstadoProducto busquedaEstado) { this.busquedaEstado = busquedaEstado; }
+
+    public BigDecimal getBusquedaPrecioMax() { return busquedaPrecioMax; }
+    public void setBusquedaPrecioMax(BigDecimal busquedaPrecioMax) { this.busquedaPrecioMax = busquedaPrecioMax; }
+
+    public List<Producto> getProductosEncontrados() { return productosEncontrados; }
     
     // Getters y Setters
     public List<Producto> getMisProductos() { return misProductos; }

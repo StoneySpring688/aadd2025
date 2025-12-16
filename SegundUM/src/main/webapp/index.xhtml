@@ -9,10 +9,14 @@
 </h:head>
 
 <h:body>
-    <h:form>
+	<h:form>
 		<p:menubar>
 			<p:menuitem value="SegundUM" url="/index.xhtml"
 				style="font-weight:bold" />
+				
+			<p:menuitem value="Buscar Productos" url="/productos/busqueda.xhtml"
+				icon="pi pi-search" />
+				
 			<f:facet name="options">
 				<span style="margin-right: 15px">Hola, <b>#{sesionBean.usuarioLogueado.nombre}</b></span>
 				<p:commandButton value="Cerrar Sesión"
@@ -23,75 +27,79 @@
 	</h:form>
 
 	<div style="padding: 20px;">
-        
-        <h:form id="formPrincipal">
-            
-            <p:messages id="msgs" showDetail="true" closable="true" >
-                 <p:autoUpdate />
-            </p:messages>
 
-            <div style="margin-bottom: 20px; text-align: right;">
-                <p:button value="Vender nuevo producto"
-                    outcome="/productos/crearProducto" icon="pi pi-plus"
-                    styleClass="ui-button-success" />
-            </div>
+		<h:form id="formPrincipal">
 
-            <p:panel header="Mis Productos en Venta">
+			<p:messages id="msgs" showDetail="true" closable="true">
+				<p:autoUpdate />
+			</p:messages>
 
-                <h:outputText value="Aún no tienes productos a la venta."
-                    rendered="#{empty productoBean.misProductos}" />
+			<div style="margin-bottom: 20px; text-align: right;">
+				<p:button value="Vender nuevo producto"
+					outcome="/productos/crearProducto" icon="pi pi-plus"
+					styleClass="ui-button-success" />
+			</div>
 
-                <p:dataTable id="tablaProductos" var="prod" value="#{productoBean.misProductos}"
-                    rendered="#{not empty productoBean.misProductos}" paginator="true"
-                    rows="5" stripedRows="true">
+			<p:panel header="Mis Productos en Venta">
 
-                    <p:column headerText="Imagen" style="width:100px; text-align:center">
-                        <i class="pi pi-image" style="font-size: 2rem; color: gray;"></i>
-                    </p:column>
+				<h:outputText value="Aún no tienes productos a la venta."
+					rendered="#{empty productoBean.misProductos}" />
 
-                    <p:column headerText="Título" sortBy="#{prod.titulo}">
-                        <h:outputText value="#{prod.titulo}" style="font-weight: bold" />
-                    </p:column>
+				<p:dataTable id="tablaProductos" var="prod"
+					value="#{productoBean.misProductos}"
+					rendered="#{not empty productoBean.misProductos}" paginator="true"
+					rows="5" stripedRows="true">
 
-                    <p:column headerText="Categoría" sortBy="#{prod.categoria.nombre}">
-                        <h:outputText value="#{prod.categoria.nombre}" />
-                    </p:column>
+					<p:column headerText="Imagen"
+						style="width:100px; text-align:center">
+						<i class="pi pi-image" style="font-size: 2rem; color: gray;"></i>
+					</p:column>
 
-                    <p:column headerText="Precio" sortBy="#{prod.precio}">
-                        <h:outputText value="#{prod.precio}">
-                            <f:convertNumber type="currency" currencySymbol="€" />
-                        </h:outputText>
-                    </p:column>
+					<p:column headerText="Título" sortBy="#{prod.titulo}">
+						<h:outputText value="#{prod.titulo}" style="font-weight: bold" />
+					</p:column>
 
-                    <p:column headerText="Estado">
-                        <h:outputText value="#{prod.estado}" />
-                    </p:column>
+					<p:column headerText="Categoría" sortBy="#{prod.categoria.nombre}">
+						<h:outputText value="#{prod.categoria.nombre}" />
+					</p:column>
 
-                    <p:column headerText="Fecha" sortBy="#{prod.fechaPublicacion}">
-                        <h:outputText value="#{prod.fechaPublicacion}">
-                            <f:convertDateTime type="localDate" pattern="dd/MM/yyyy" />
-                        </h:outputText>
-                    </p:column>
+					<p:column headerText="Precio" sortBy="#{prod.precio}">
+						<h:outputText value="#{prod.precio}">
+							<f:convertNumber type="currency" currencySymbol="€" />
+						</h:outputText>
+					</p:column>
 
-                    <p:column headerText="Vistas" sortBy="#{prod.visualizaciones}"
-                        style="text-align: center; width: 80px">
-                        <p:badge value="#{prod.visualizaciones}" severity="info" />
-                    </p:column>
+					<p:column headerText="Estado">
+						<h:outputText value="#{prod.estado}" />
+					</p:column>
 
-                    <p:column headerText="Acciones" style="width: 100px; text-align: center;">
-                        <p:commandButton icon="pi pi-pencil"
-                            update=":formEditar:panelEditar"
-                            oncomplete="PF('dlgEditar').show()"
-                            styleClass="ui-button-warning ui-button-rounded ui-button-flat"
-                            title="Editar">
-                            <f:setPropertyActionListener value="#{prod}"
-                                target="#{productoBean.productoSeleccionado}" />
-                        </p:commandButton>
-                    </p:column>
+					<p:column headerText="Fecha" sortBy="#{prod.fechaPublicacion}">
+						<h:outputText value="#{prod.fechaPublicacion}">
+							<f:convertDateTime type="localDate" pattern="dd/MM/yyyy" />
+						</h:outputText>
+					</p:column>
 
-                </p:dataTable>
-            </p:panel>
-        </h:form> <p:dialog header="Editar Producto" widgetVar="dlgEditar" modal="true"
+					<p:column headerText="Vistas" sortBy="#{prod.visualizaciones}"
+						style="text-align: center; width: 80px">
+						<p:badge value="#{prod.visualizaciones}" severity="info" />
+					</p:column>
+
+					<p:column headerText="Acciones"
+						style="width: 100px; text-align: center;">
+						<p:commandButton icon="pi pi-pencil"
+							update=":formEditar:panelEditar"
+							oncomplete="PF('dlgEditar').show()"
+							styleClass="ui-button-warning ui-button-rounded ui-button-flat"
+							title="Editar">
+							<f:setPropertyActionListener value="#{prod}"
+								target="#{productoBean.productoSeleccionado}" />
+						</p:commandButton>
+					</p:column>
+
+				</p:dataTable>
+			</p:panel>
+		</h:form>
+		<p:dialog header="Editar Producto" widgetVar="dlgEditar" modal="true"
 			showEffect="fade" hideEffect="fade" resizable="false">
 
 			<h:form id="formEditar">
@@ -117,12 +125,13 @@
 							counterTemplate="{0} restantes." />
 
 						<h:outputText />
-						<h:outputText id="displayEd" style="font-size: 0.8em; color: gray;" />
+						<h:outputText id="displayEd"
+							style="font-size: 0.8em; color: gray;" />
 
 					</h:panelGrid>
 
 					<div style="text-align: right; margin-top: 10px;">
-                        <p:commandButton value="Guardar" icon="pi pi-check"
+						<p:commandButton value="Guardar" icon="pi pi-check"
 							action="#{productoBean.guardarEdicion}"
 							update=":formPrincipal:tablaProductos :formPrincipal:msgs"
 							oncomplete="if (!args.validationFailed) PF('dlgEditar').hide()" />
