@@ -34,6 +34,12 @@ public interface ServicioProductos {
      * Incrementa en 1 el contador de visualizaciones.
      */
     void anadirVisualizacion(String productoId) throws ServicioException;
+    
+    /**
+     * Modifica precio y/o descripción de un producto.
+     * Verifica que el usuario solicitante sea el propietario.
+     */
+    void modificarProducto(String idProducto, String nuevaDescripcion, BigDecimal nuevoPrecio, String idUsuarioSolicitante) throws ServicioException;
 
     /**
      * Historial del mes de un vendedor: devuelve resumen ordenado por visualizaciones (desc).

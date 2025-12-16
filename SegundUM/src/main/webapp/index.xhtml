@@ -1,75 +1,141 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
 
 <h:head>
-    <title>SegundUM - Mis Productos</title>
+	<title>SegundUM - Mis Productos</title>
 </h:head>
 
 <h:body>
     <h:form>
-        <p:menubar>
-            <p:menuitem value="SegundUM" url="/index.xhtml" style="font-weight:bold"/>
-            <f:facet name="options">
-                <span style="margin-right:15px">Hola, <b>#{sesionBean.usuarioLogueado.nombre}</b></span>
-                <p:commandButton value="Cerrar Sesión" action="#{sesionBean.cerrarSesion}" 
-                                 icon="pi pi-power-off" styleClass="ui-button-danger ui-button-flat"/>
-            </f:facet>
-        </p:menubar>
-    </h:form>
+		<p:menubar>
+			<p:menuitem value="SegundUM" url="/index.xhtml"
+				style="font-weight:bold" />
+			<f:facet name="options">
+				<span style="margin-right: 15px">Hola, <b>#{sesionBean.usuarioLogueado.nombre}</b></span>
+				<p:commandButton value="Cerrar Sesión"
+					action="#{sesionBean.cerrarSesion}" icon="pi pi-power-off"
+					styleClass="ui-button-danger ui-button-flat" />
+			</f:facet>
+		</p:menubar>
+	</h:form>
 
-    <div style="padding: 20px;">
+	<div style="padding: 20px;">
         
-        <div style="margin-bottom: 20px; text-align: right;">
-            <p:button value="Vender nuevo producto" outcome="/productos/crearProducto" 
-                      icon="pi pi-plus" styleClass="ui-button-success"/>
-        </div>
-
-        <p:panel header="Mis Productos en Venta">
+        <h:form id="formPrincipal">
             
-            <h:outputText value="Aún no tienes productos a la venta." 
-                          rendered="#{empty productoBean.misProductos}" />
+            <p:messages id="msgs" showDetail="true" closable="true" >
+                 <p:autoUpdate />
+            </p:messages>
 
-            <p:dataTable var="prod" value="#{productoBean.misProductos}" 
-                         rendered="#{not empty productoBean.misProductos}"
-                         paginator="true" rows="5" stripedRows="true">
+            <div style="margin-bottom: 20px; text-align: right;">
+                <p:button value="Vender nuevo producto"
+                    outcome="/productos/crearProducto" icon="pi pi-plus"
+                    styleClass="ui-button-success" />
+            </div>
 
-                <p:column headerText="Imagen" style="width:100px; text-align:center">
-                     <i class="pi pi-image" style="font-size: 2rem; color: gray;"></i>
-                </p:column>
+            <p:panel header="Mis Productos en Venta">
 
-                <p:column headerText="Título" sortBy="#{prod.titulo}">
-                    <h:outputText value="#{prod.titulo}" style="font-weight: bold"/>
-                </p:column>
+                <h:outputText value="Aún no tienes productos a la venta."
+                    rendered="#{empty productoBean.misProductos}" />
 
-                <p:column headerText="Categoría" sortBy="#{prod.categoria.nombre}">
-                    <h:outputText value="#{prod.categoria.nombre}" />
-                </p:column>
+                <p:dataTable id="tablaProductos" var="prod" value="#{productoBean.misProductos}"
+                    rendered="#{not empty productoBean.misProductos}" paginator="true"
+                    rows="5" stripedRows="true">
 
-                <p:column headerText="Precio" sortBy="#{prod.precio}">
-                    <h:outputText value="#{prod.precio}">
-                        <f:convertNumber type="currency" currencySymbol="€" />
-                    </h:outputText>
-                </p:column>
+                    <p:column headerText="Imagen" style="width:100px; text-align:center">
+                        <i class="pi pi-image" style="font-size: 2rem; color: gray;"></i>
+                    </p:column>
 
-                <p:column headerText="Estado">
-                    <h:outputText value="#{prod.estado}" />
-                </p:column>
+                    <p:column headerText="Título" sortBy="#{prod.titulo}">
+                        <h:outputText value="#{prod.titulo}" style="font-weight: bold" />
+                    </p:column>
 
-                <p:column headerText="Fecha" sortBy="#{prod.fechaPublicacion}">
-                    <h:outputText value="#{prod.fechaPublicacion}">
-                        <f:convertDateTime type="localDate" pattern="dd/MM/yyyy" />
-                    </h:outputText>
-                </p:column>
+                    <p:column headerText="Categoría" sortBy="#{prod.categoria.nombre}">
+                        <h:outputText value="#{prod.categoria.nombre}" />
+                    </p:column>
 
-                <p:column headerText="Vistas" sortBy="#{prod.visualizaciones}" style="text-align: center; width: 80px">
-                    <p:badge value="#{prod.visualizaciones}" severity="info" />
-                </p:column>
+                    <p:column headerText="Precio" sortBy="#{prod.precio}">
+                        <h:outputText value="#{prod.precio}">
+                            <f:convertNumber type="currency" currencySymbol="€" />
+                        </h:outputText>
+                    </p:column>
 
-            </p:dataTable>
-        </p:panel>
-    </div>
+                    <p:column headerText="Estado">
+                        <h:outputText value="#{prod.estado}" />
+                    </p:column>
+
+                    <p:column headerText="Fecha" sortBy="#{prod.fechaPublicacion}">
+                        <h:outputText value="#{prod.fechaPublicacion}">
+                            <f:convertDateTime type="localDate" pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Vistas" sortBy="#{prod.visualizaciones}"
+                        style="text-align: center; width: 80px">
+                        <p:badge value="#{prod.visualizaciones}" severity="info" />
+                    </p:column>
+
+                    <p:column headerText="Acciones" style="width: 100px; text-align: center;">
+                        <p:commandButton icon="pi pi-pencil"
+                            update=":formEditar:panelEditar"
+                            oncomplete="PF('dlgEditar').show()"
+                            styleClass="ui-button-warning ui-button-rounded ui-button-flat"
+                            title="Editar">
+                            <f:setPropertyActionListener value="#{prod}"
+                                target="#{productoBean.productoSeleccionado}" />
+                        </p:commandButton>
+                    </p:column>
+
+                </p:dataTable>
+            </p:panel>
+        </h:form> <p:dialog header="Editar Producto" widgetVar="dlgEditar" modal="true"
+			showEffect="fade" hideEffect="fade" resizable="false">
+
+			<h:form id="formEditar">
+				<p:outputPanel id="panelEditar">
+
+					<h:panelGrid columns="2" cellpadding="5">
+
+						<h:outputLabel value="Título:" style="font-weight:bold" />
+						<h:outputText value="#{productoBean.productoSeleccionado.titulo}" />
+
+						<h:outputLabel for="precioEd" value="Precio (€):"
+							style="font-weight:bold" />
+						<p:inputNumber id="precioEd"
+							value="#{productoBean.productoSeleccionado.precio}" symbol=" €"
+							symbolPosition="s" decimalSeparator="," thousandSeparator="."
+							required="true" />
+
+						<h:outputLabel for="descEd" value="Descripción:"
+							style="font-weight:bold" />
+						<p:inputTextarea id="descEd"
+							value="#{productoBean.productoSeleccionado.descripcion}" rows="5"
+							cols="30" maxlength="250" counter="displayEd"
+							counterTemplate="{0} restantes." />
+
+						<h:outputText />
+						<h:outputText id="displayEd" style="font-size: 0.8em; color: gray;" />
+
+					</h:panelGrid>
+
+					<div style="text-align: right; margin-top: 10px;">
+                        <p:commandButton value="Guardar" icon="pi pi-check"
+							action="#{productoBean.guardarEdicion}"
+							update=":formPrincipal:tablaProductos :formPrincipal:msgs"
+							oncomplete="if (!args.validationFailed) PF('dlgEditar').hide()" />
+
+						<p:commandButton value="Cancelar" icon="pi pi-times"
+							onclick="PF('dlgEditar').hide()" type="button"
+							styleClass="ui-button-secondary ui-button-flat" />
+					</div>
+
+				</p:outputPanel>
+			</h:form>
+		</p:dialog>
+
+	</div>
 </h:body>
 </html>

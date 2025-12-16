@@ -39,6 +39,7 @@ public class ProductoBean implements Serializable {
 
     private ServicioProductos servicioProductos;
     private ServicioCategorias servicioCategorias;
+    private Producto productoSeleccionado;
 
     public ProductoBean() {
         this.servicioProductos = FactoriaServicios.getServicio(ServicioProductos.class);
@@ -95,15 +96,43 @@ public class ProductoBean implements Serializable {
         }
     }
     
-    public List<Producto> getMisProductos() {
-        return misProductos;
-    }
+    public void guardarEdicion() {
+        if (productoSeleccionado == null) return;
 
-    public EstadoProducto[] getEstadosPosibles() {
-        return EstadoProducto.values();
-    }
+        try {
+            String idUsuario = sesionBean.getUsuarioLogueado().getId();
 
+            // Llamamos al servicio pasando los datos modificados del objeto seleccionado
+            servicioProductos.modificarProducto(
+                productoSeleccionado.getId(),
+                productoSeleccionado.getDescripcion(),
+                productoSeleccionado.getPrecio(),
+                idUsuario
+            );
+
+            FacesContext.getCurrentInstance().addMessage(null, 
+                new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito", "Producto actualizado."));
+            
+            // Opcional: Recargar la lista para asegurar sincronización
+            this.misProductos = servicioProductos.getProductosPorVendedor(idUsuario);
+
+            // Cerramos el diálogo desde el servidor (opcional, también se puede hacer con oncomplete en el xhtml)
+            // PrimeFaces.current().executeScript("PF('dlgEditar').hide();");
+
+        } catch (ServicioException e) {
+            FacesContext.getCurrentInstance().addMessage(null, 
+                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
+        }
+    }
+    
     // Getters y Setters
+    public List<Producto> getMisProductos() { return misProductos; }
+
+    public EstadoProducto[] getEstadosPosibles() { return EstadoProducto.values(); }
+    
+    public Producto getProductoSeleccionado() { return productoSeleccionado; }
+    public void setProductoSeleccionado(Producto productoSeleccionado) { this.productoSeleccionado = productoSeleccionado; }
+
     public String getTitulo() { return titulo; }
     public void setTitulo(String titulo) { this.titulo = titulo; }
     

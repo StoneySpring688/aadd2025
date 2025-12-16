@@ -161,4 +161,37 @@ public class ServicioProductosImpl implements ServicioProductos {
             throw new ServicioException("Error al obtener los productos del vendedor", e);
         }
     }
+	
+	@Override
+    public void modificarProducto(String idProducto, String nuevaDescripcion, BigDecimal nuevoPrecio, String idUsuarioSolicitante) throws ServicioException {
+        try {
+            // 1. Recuperamos el producto
+            Producto p = repositorioProductos.getById(idProducto);
+
+            // 2. VERIFICACIÓN DE SEGURIDAD: ¿Es el dueño?
+            if (!p.getVendedor().getId().equals(idUsuarioSolicitante)) {
+                // logger.warn("Intento de modificación no autorizada por usuario: " + idUsuarioSolicitante);
+                throw new ServicioException("No tienes permiso para editar este producto.");
+            }
+
+            // 3. Actualizamos solo los campos permitidos
+            if (nuevaDescripcion != null && !nuevaDescripcion.isEmpty()) {
+                p.setDescripcion(nuevaDescripcion);
+            }
+            
+            if (nuevoPrecio != null) {
+                // Podrías añadir validación de precio > 0 aquí
+                p.setPrecio(nuevoPrecio);
+            }
+
+            // 4. Persistimos los cambios
+            repositorioProductos.update(p); // Asumimos que RepositorioJPA tiene update
+
+        } catch (EntidadNoEncontrada e) {
+            throw new ServicioException("El producto no existe.", e);
+        } catch (RepositorioException e) {
+            throw new ServicioException("Error al modificar el producto.", e);
+        }
+    }
+	
 }
